@@ -87,7 +87,7 @@ def rebuild_manifest() -> None:
                         "grade": grade_dir.name,
                         "year": _extract_year(problem_id),
                         "stats_type": meta.get("stats_type", "gear"),
-                        "path": f"/problems/{grade_dir.name}/{json_path.name}",
+                        "path": f"problems/{grade_dir.name}/{json_path.name}",
                     }
                 )
 

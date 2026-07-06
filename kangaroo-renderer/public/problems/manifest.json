@@ -7,7 +7,7 @@
       "grade": "MK_G1_2",
       "year": "2021",
       "stats_type": "gear",
-      "path": "/problems/MK_G1_2/MK_G1_2_2021_GearRatio.json"
+      "path": "problems/MK_G1_2/MK_G1_2_2021_GearRatio.json"
     },
     {
       "id": "MK_G1_2_2025_DropBall",
@@ -16,7 +16,7 @@
       "grade": "MK_G1_2",
       "year": "2025",
       "stats_type": "coins",
-      "path": "/problems/MK_G1_2/MK_G1_2_2025_DropBall.json"
+      "path": "problems/MK_G1_2/MK_G1_2_2025_DropBall.json"
     },
     {
       "id": "MK_G5_6_2020_Cube3x3x3",
@@ -25,7 +25,7 @@
       "grade": "MK_G5_6",
       "year": "2020",
       "stats_type": "none",
-      "path": "/problems/MK_G5_6/MK_G5_6_2020_Cube3x3x3.json"
+      "path": "problems/MK_G5_6/MK_G5_6_2020_Cube3x3x3.json"
     }
   ]
 }

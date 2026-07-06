@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: 'https://github.com/liuzongyue6/math-kangaroo-visualization',
+  base: '/math-kangaroo-visualization/',
 })

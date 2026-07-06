@@ -61,9 +61,9 @@ function App() {
     setConfig(null);
     setError(null);
 
-    fetch(problem.path)
+    fetch(`${import.meta.env.BASE_URL}${problem.path}`)
       .then((r) => {
-        if (!r.ok) throw new Error(`Failed to load ${problem.path}`);
+        if (!r.ok) throw new Error(`Failed to load ${import.meta.env.BASE_URL}${problem.path}`);
         return r.json();
       })
       .then((data: ProblemConfig) => setConfig(data))
