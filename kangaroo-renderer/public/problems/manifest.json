@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "id": "MK_G1_2_2021_GearRatio",
+      "title": "Gear Ratio 2:1 Simulation",
+      "description": "Watch how the small gear must spin twice for every one spin of the large gear. Pause the animation, then drag either gear to turn it by hand.",
+      "grade": "MK_G1_2",
+      "year": "2021",
+      "stats_type": "gear",
+      "path": "/problems/MK_G1_2/MK_G1_2_2021_GearRatio.json"
+    },
+    {
+      "id": "MK_G1_2_2025_DropBall",
+      "title": "Click Any Column",
+      "description": "Drop balls from any column. Collect them below!",
+      "grade": "MK_G1_2",
+      "year": "2025",
+      "stats_type": "coins",
+      "path": "/problems/MK_G1_2/MK_G1_2_2025_DropBall.json"
+    },
+    {
+      "id": "MK_G5_6_2020_Cube3x3x3",
+      "title": "3x3x3 Cube Structure Explorer",
+      "description": "A 3x3x3 cube built from 27 unit cubes. Drag to orbit, and use Explode / Assemble to pull the cubes apart and inspect the hidden interior blocks.",
+      "grade": "MK_G5_6",
+      "year": "2020",
+      "stats_type": "none",
+      "path": "/problems/MK_G5_6/MK_G5_6_2020_Cube3x3x3.json"
+    }
+  ]
+}

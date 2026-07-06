@@ -1,0 +1,12 @@
+[project]
+name = "kangaroo-content"
+version = "0.1.0"
+description = "Math Kangaroo problem config generators"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

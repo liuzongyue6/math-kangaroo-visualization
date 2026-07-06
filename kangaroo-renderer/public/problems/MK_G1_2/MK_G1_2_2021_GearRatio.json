@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "id": "MK_G1_2_2021_GearRatio",
+    "title": "Gear Ratio 2:1 Simulation",
+    "description": "Watch how the small gear must spin twice for every one spin of the large gear. Pause the animation, then drag either gear to turn it by hand.",
+    "stats_type": "gear",
+    "on_white_collect_message": null,
+    "controls": [
+      "play",
+      "reset"
+    ]
+  },
+  "camera": {
+    "mode": "perspective",
+    "position": [
+      0.0,
+      -90.0,
+      480.0
+    ],
+    "look_at": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "zoom": null,
+    "fov": 38.0,
+    "viewport_width": 600.0,
+    "viewport_height": 400.0,
+    "controls": "locked",
+    "min_polar_angle": null,
+    "max_polar_angle": null
+  },
+  "scene": {
+    "entities": [
+      {
+        "id": "small-gear",
+        "geometry": {
+          "kind": "gear",
+          "radius": 50.0,
+          "teeth": 8,
+          "tooth_depth": 12.0,
+          "marked_tooth_index": 0
+        },
+        "material": {
+          "color": "#ffb3ba",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.6,
+          "wireframe": false
+        },
+        "transform": {
+          "position": [
+            -80.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "rotate_coupled",
+            "driver_id": null,
+            "ratio": 1.0,
+            "direction": 1,
+            "speed": 0.02,
+            "initial_rotation": 0.0
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null
+      },
+      {
+        "id": "large-gear",
+        "geometry": {
+          "kind": "gear",
+          "radius": 100.0,
+          "teeth": 16,
+          "tooth_depth": 12.0,
+          "marked_tooth_index": -1
+        },
+        "material": {
+          "color": "#b3b3ff",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.6,
+          "wireframe": false
+        },
+        "transform": {
+          "position": [
+            85.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "rotate_coupled",
+            "driver_id": "small-gear",
+            "ratio": -0.5,
+            "direction": -1,
+            "speed": 0.02,
+            "initial_rotation": 3.3379421944391554
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null
+      }
+    ],
+    "paths": {},
+    "initial_state": {
+      "isPlaying": true,
+      "coins": 0,
+      "history": [],
+      "rotations": {
+        "small-gear": 0,
+        "large-gear": 0
+      },
+      "collected": [],
+      "message": "",
+      "driverAngles": {
+        "small-gear": 0
+      }
+    }
+  }
+}
