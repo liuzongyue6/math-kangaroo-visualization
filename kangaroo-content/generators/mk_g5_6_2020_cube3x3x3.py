@@ -39,13 +39,24 @@ WHITE_POSITIONS = {
 EXPLODE_TARGET_FACTOR = 2.2
 EXPLODE_SPEED = 0.06
 
-
 def cube_color(x: int, y: int, z: int) -> str:
-    if x < 2 and y < 2 and z < 2:
-        return COLORS["dark"]
-    if (x, y, z) in WHITE_POSITIONS:
+    """
+    根据选项 (B) 定义颜色:
+    x: 0(左), 1(中), 2(右)
+    y: 0(下), 1(中), 2(上)
+    z: 0(后), 1(中), 2(前)
+    """
+    # 1. 正面 (z=2) 全部是浅灰色 (共 9 个)
+    if z == 2:
+        return COLORS["light"]
+    
+    # 2. 剩余部分中，顶面 (y=2) 和 右侧面 (x=2) 都是白色 (共 10 个)
+    elif x == 2 or y == 2:
         return COLORS["white"]
-    return COLORS["light"]
+    
+    # 3. 剩下包裹在左、下、后方的 2x2x2 核心区域是深灰色 (共 8 个)
+    else:
+        return COLORS["dark"]
 
 
 def build_cube_explode_problem() -> ProblemConfig:

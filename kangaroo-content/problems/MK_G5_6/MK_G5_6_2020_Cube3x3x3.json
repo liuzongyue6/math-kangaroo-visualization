@@ -273,7 +273,7 @@
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#ffffff",
+          "color": "#aaaaaa",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -319,7 +319,7 @@
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#aaaaaa",
+          "color": "#ffffff",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -549,7 +549,7 @@
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#ffffff",
+          "color": "#aaaaaa",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -825,7 +825,7 @@
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#ffffff",
+          "color": "#aaaaaa",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -871,7 +871,7 @@
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#aaaaaa",
+          "color": "#ffffff",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -1055,7 +1055,7 @@
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#aaaaaa",
+          "color": "#ffffff",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -1101,7 +1101,7 @@
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#ffffff",
+          "color": "#aaaaaa",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -1147,7 +1147,7 @@
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#aaaaaa",
+          "color": "#ffffff",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
