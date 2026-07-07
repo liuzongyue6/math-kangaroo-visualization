@@ -22,9 +22,13 @@ import '@fontsource/roboto/600.css';
 import '@fontsource/roboto/700.css';
 import { theme } from './theme';
 import { ProblemPlayer } from './player/ProblemPlayer';
+import { CoverScreen } from './ui/CoverScreen';
 import { useProblemStore } from './stores/problemStore';
 import type { ProblemConfig, ProblemManifest, ProblemManifestEntry } from './types/problem';
 import './index.css';
+
+const DEFAULT_TITLE = 'Math Kangaroo Visualizations';
+const COVER_SEEN_KEY = 'mk_cover_seen';
 
 // Dev-only hook so automated checks (and manual console poking) can drive
 // the store directly: __problemStore.getState().setFoldAngle(90) etc.
@@ -45,6 +49,22 @@ function App() {
   const [selected, setSelected] = useState<string>('');
   const [config, setConfig] = useState<ProblemConfig | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showCover, setShowCover] = useState<boolean>(
+    () => sessionStorage.getItem(COVER_SEEN_KEY) !== '1',
+  );
+
+  const dismissCover = () => {
+    sessionStorage.setItem(COVER_SEEN_KEY, '1');
+    setShowCover(false);
+  };
+
+  // Browser tab title doubles as the problem's "final page name" — the
+  // JSON filename (meta.id) already encodes grade + year, e.g.
+  // MK_G1_2_2021_GearRatio, so surface it verbatim rather than the
+  // human-readable meta.title.
+  useEffect(() => {
+    document.title = config ? `${config.meta.id} · ${DEFAULT_TITLE}` : DEFAULT_TITLE;
+  }, [config]);
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}problems/manifest.json`)
@@ -100,6 +120,7 @@ function App() {
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {showCover && <CoverScreen onEnter={dismissCover} />}
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar sx={{ gap: 3, flexWrap: 'wrap', py: 1.5 }}>
           <Typography variant="h6" component="div" sx={{ fontWeight: 700, color: 'text.primary' }}>
@@ -120,7 +141,7 @@ function App() {
                 </MenuItem>,
                 ...group.problems.map((p) => (
                   <MenuItem key={p.id} value={p.id} sx={{ pl: 3 }}>
-                    {p.title}
+                    {p.id}
                   </MenuItem>
                 )),
               ])}

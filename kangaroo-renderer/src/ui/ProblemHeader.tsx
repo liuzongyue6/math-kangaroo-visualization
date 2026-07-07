@@ -9,7 +9,7 @@ export function ProblemHeader({ meta }: ProblemHeaderProps) {
   return (
     <Box sx={{ textAlign: 'center', mb: 2, px: 2 }}>
       <Typography variant="h5" component="h1" sx={{ mb: meta.description ? 0.5 : 0 }}>
-        {meta.title}
+        {meta.id}
       </Typography>
       {meta.description && (
         <Typography variant="body1" color="text.secondary">
