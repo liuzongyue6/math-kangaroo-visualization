@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Drop Ball Machine</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#eef3f8;
+    text-align:center;
+}
+
+h2{
+    margin-top:15px;
+}
+
+.machine{
+    width:420px;
+    margin:auto;
+    background:white;
+    border:6px solid #666;
+    border-radius:8px;
+    padding:15px;
+    display:flex;
+    justify-content:space-around;
+}
+
+.column{
+    width:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    cursor:pointer;
+    transition:.2s;
+    border-radius:8px;
+    padding:5px;
+}
+
+.column:hover{
+    background:#dff0ff;
+}
+
+.ball{
+
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    margin:3px;
+    border:2px solid #444;
+    transition:.3s;
+}
+
+.blue{
+    background:#3fa9ff;
+}
+
+.yellow{
+    background:#ffd63d;
+}
+
+.white{
+    background:white;
+}
+
+button{
+    margin-top:20px;
+    padding:10px 25px;
+    font-size:18px;
+}
+
+#history{
+
+    margin:20px auto;
+    min-height:70px;
+    width:420px;
+    border:2px dashed gray;
+    background:white;
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+    flex-wrap:wrap;
+    padding:10px;
+}
+
+#message{
+
+    font-size:26px;
+    color:green;
+    font-weight:bold;
+    height:35px;
+}
+
+#counter{
+
+    font-size:20px;
+    margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Click Any Column</h2>
+
+<div id="counter">
+Coins Used : 0
+</div>
+
+<div class="machine" id="machine"></div>
+
+<br>
+
+<button onclick="resetGame()">Reset</button>
+
+<div id="message"></div>
+
+<h3>Collected Balls</h3>
+
+<div id="history"></div>
+
+<script>
+
+const startData=[
+
+["blue","yellow","yellow","blue","blue"],
+
+["yellow","blue","blue","white","yellow"],
+
+["blue","white","white","yellow","blue"],
+
+["white","yellow","yellow","yellow","white"],
+
+["yellow","yellow","blue","white","yellow"]
+
+];
+
+let columns=[];
+let coins=0;
+
+function copyData(){
+
+    columns=JSON.parse(JSON.stringify(startData));
+
+}
+
+function draw(){
+
+    const machine=document.getElementById("machine");
+
+    machine.innerHTML="";
+
+    columns.forEach((col,index)=>{
+
+        const c=document.createElement("div");
+
+        c.className="column";
+
+        c.onclick=function(){
+
+            drop(index);
+
+        };
+
+        col.forEach(color=>{
+
+            const b=document.createElement("div");
+
+            b.className="ball "+color;
+
+            c.appendChild(b);
+
+        });
+
+        machine.appendChild(c);
+
+    });
+
+}
+
+function drop(col){
+
+    if(columns[col].length==0)
+        return;
+
+    coins++;
+
+    document.getElementById("counter").innerHTML="Coins Used : "+coins;
+
+    const color=columns[col].pop();
+
+    draw();
+
+    const b=document.createElement("div");
+
+    b.className="ball "+color;
+
+    b.style.transform="translateY(-50px)";
+    b.style.opacity="0";
+
+    document.getElementById("history").appendChild(b);
+
+    setTimeout(()=>{
+
+        b.style.transition=".4s";
+        b.style.transform="translateY(0)";
+        b.style.opacity="1";
+
+    },20);
+
+    if(color=="white"){
+
+        document.getElementById("message").innerHTML="🎉 You Got A WHITE Ball!";
+
+    }
+
+}
+
+function resetGame(){
+
+    copyData();
+
+    coins=0;
+
+    document.getElementById("counter").innerHTML="Coins Used : 0";
+
+    document.getElementById("history").innerHTML="";
+
+    document.getElementById("message").innerHTML="";
+
+    draw();
+
+}
+
+resetGame();
+
+</script>
+
+</body>
+</html>

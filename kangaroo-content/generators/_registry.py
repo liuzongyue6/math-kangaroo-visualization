@@ -27,9 +27,10 @@ _GRADE_NUMS_RE = re.compile(r"\d+")
 
 
 def serialize_model(model: Any) -> dict:
+    # by_alias so ParamRef fields serialize as {"$param": "..."}.
     if hasattr(model, "model_dump"):
-        return model.model_dump()
-    return model.dict()
+        return model.model_dump(by_alias=True)
+    return model.dict(by_alias=True)
 
 
 def _extract_year(problem_id: str) -> str:

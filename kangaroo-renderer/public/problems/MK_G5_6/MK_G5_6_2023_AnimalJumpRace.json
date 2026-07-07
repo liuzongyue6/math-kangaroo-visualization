@@ -1,0 +1,297 @@
+{
+  "meta": {
+    "id": "MK_G5_6_2023_AnimalJumpRace",
+    "title": "Animal Jumping Competition",
+    "description": "A mouse, rabbit and kangaroo start together and hop 1, 2 and 3 spaces at a time around a circular track. Change the number of spaces, then click Jump to play one turn at a time and see who lands exactly on FINISH in the fewest jumps -- this visualizes the 2023 Math Kangaroo Grade 5-6 beaver/rabbit/kangaroo race.",
+    "stats_type": "jump",
+    "on_white_collect_message": null,
+    "controls": [
+      "step",
+      "reset"
+    ],
+    "params": [
+      {
+        "id": "num_nodes",
+        "label": "Total Spaces on Track",
+        "type": "int",
+        "min": 5.0,
+        "max": 60.0,
+        "step": 1.0,
+        "default": 20.0
+      }
+    ]
+  },
+  "camera": {
+    "mode": "orthographic",
+    "position": [
+      0.0,
+      0.0,
+      500.0
+    ],
+    "look_at": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "zoom": 1.0,
+    "fov": null,
+    "viewport_width": 520.0,
+    "viewport_height": 520.0,
+    "controls": "locked",
+    "min_polar_angle": null,
+    "max_polar_angle": null,
+    "fold_center_shift": null
+  },
+  "scene": {
+    "entities": [
+      {
+        "id": "track",
+        "geometry": {
+          "kind": "circular_track",
+          "num_nodes": {
+            "$param": "num_nodes"
+          },
+          "radius": 170.0,
+          "node_radius": 9.0,
+          "node_color": "#d9dde2",
+          "backdrop_color": "#f4f7f6",
+          "backdrop_margin": 40.0,
+          "backdrop_thickness": 6.0,
+          "backdrop_z": -20.0,
+          "finish_node": null
+        },
+        "material": {
+          "color": "#cccccc",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.6,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "mouse",
+        "geometry": {
+          "kind": "sphere",
+          "radius": 14.0
+        },
+        "material": {
+          "color": "#c9c9c9",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.6,
+          "wireframe": false,
+          "unlit": true
+        },
+        "transform": {
+          "position": [
+            0.0,
+            145.0,
+            6.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "circular_jump",
+            "num_nodes": {
+              "$param": "num_nodes"
+            },
+            "step": 1,
+            "finish_node": null,
+            "center": [
+              0.0,
+              0.0
+            ],
+            "radius": 170.0,
+            "lane_offset": -25.0,
+            "jump_height": 35.0
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": {
+          "text": "🐁",
+          "offset": [
+            0.0,
+            0.0,
+            20.0
+          ],
+          "variant": "symbol",
+          "follow_rotation": false
+        },
+        "pattern": null
+      },
+      {
+        "id": "rabbit",
+        "geometry": {
+          "kind": "sphere",
+          "radius": 14.0
+        },
+        "material": {
+          "color": "#f7c9c9",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.6,
+          "wireframe": false,
+          "unlit": true
+        },
+        "transform": {
+          "position": [
+            0.0,
+            170.0,
+            6.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "circular_jump",
+            "num_nodes": {
+              "$param": "num_nodes"
+            },
+            "step": 2,
+            "finish_node": null,
+            "center": [
+              0.0,
+              0.0
+            ],
+            "radius": 170.0,
+            "lane_offset": 0.0,
+            "jump_height": 35.0
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": {
+          "text": "🐇",
+          "offset": [
+            0.0,
+            0.0,
+            20.0
+          ],
+          "variant": "symbol",
+          "follow_rotation": false
+        },
+        "pattern": null
+      },
+      {
+        "id": "kangaroo",
+        "geometry": {
+          "kind": "sphere",
+          "radius": 14.0
+        },
+        "material": {
+          "color": "#f4dfa0",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.6,
+          "wireframe": false,
+          "unlit": true
+        },
+        "transform": {
+          "position": [
+            0.0,
+            195.0,
+            6.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "circular_jump",
+            "num_nodes": {
+              "$param": "num_nodes"
+            },
+            "step": 3,
+            "finish_node": null,
+            "center": [
+              0.0,
+              0.0
+            ],
+            "radius": 170.0,
+            "lane_offset": 25.0,
+            "jump_height": 35.0
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": {
+          "text": "🦘",
+          "offset": [
+            0.0,
+            0.0,
+            20.0
+          ],
+          "variant": "symbol",
+          "follow_rotation": false
+        },
+        "pattern": null
+      }
+    ],
+    "paths": {},
+    "initial_state": {
+      "isPlaying": false,
+      "isExploded": false,
+      "foldAngle": 0,
+      "coins": 0,
+      "history": [],
+      "rotations": {},
+      "collected": [],
+      "message": "",
+      "driverAngles": {},
+      "turnCount": 0,
+      "jumpFinishedTurn": {},
+      "isJumping": false
+    }
+  }
+}

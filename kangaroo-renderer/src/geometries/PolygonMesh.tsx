@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import * as THREE from 'three';
 import { Outlines } from '@react-three/drei';
 import type { PolygonGeometry, Material } from '../types/problem';
-import { materialProps, OUTLINE_COLOR, OUTLINE_THICKNESS } from './materialProps';
+import { OUTLINE_COLOR, OUTLINE_THICKNESS } from './materialProps';
+import { EntityMaterial } from './EntityMaterial';
 
 type PolygonMeshProps = {
   geo: PolygonGeometry;
@@ -30,7 +31,7 @@ export function PolygonMesh({ geo, material }: PolygonMeshProps) {
 
   return (
     <mesh geometry={geometry} position={[0, 0, -geo.depth / 2]} castShadow receiveShadow>
-      <meshStandardMaterial {...materialProps(material)} />
+      <EntityMaterial material={material} />
       <Outlines thickness={OUTLINE_THICKNESS} color={OUTLINE_COLOR} />
     </mesh>
   );

@@ -5,6 +5,21 @@ from typing import Literal, Union
 from pydantic import BaseModel, Field
 
 
+class ParamRef(BaseModel):
+    """Reference to a runtime problem parameter (see ProblemMeta.params).
+
+    Bindable numeric fields are typed `int | ParamRef`; a ParamRef serializes
+    as `{"$param": "<param id>"}` and the renderer resolves it against the
+    live `paramValues` store, so users can retune the problem (e.g. track
+    size) without regenerating JSON.
+    """
+
+    param: str = Field(alias="$param")
+
+    class Config:
+        allow_population_by_field_name = True
+
+
 class Transform(BaseModel):
     position: tuple[float, float, float] = (0, 0, 0)
     rotation: tuple[float, float, float] = (0, 0, 0)
@@ -19,6 +34,10 @@ class Material(BaseModel):
     metalness: float = 0.0
     roughness: float = 0.6
     wireframe: bool = False
+    # True => rendered unlit (meshBasicMaterial): flat CSS-like color with no
+    # shading. The right look for 2D diagram problems (tracks, counters);
+    # keep False for real 3D solids that need depth cues.
+    unlit: bool = False
 
 
 class GearGeometry(BaseModel):
@@ -57,12 +76,33 @@ class PolygonGeometry(BaseModel):
     depth: float = 12
 
 
+class CircularTrackGeometry(BaseModel):
+    """Procedural circular race track: a backdrop disc plus `num_nodes`
+    evenly-spaced node spheres with START/FINISH captions. Rendered entirely
+    on the frontend from these parameters (instead of baking one entity per
+    node into the JSON), so `num_nodes` can be a ParamRef and the track
+    rebuilds live when the user changes the parameter."""
+
+    kind: Literal["circular_track"] = "circular_track"
+    num_nodes: int | ParamRef
+    radius: float = 180
+    node_radius: float = 9
+    node_color: str = "#d9dde2"
+    backdrop_color: str | None = "#f4f7f6"
+    backdrop_margin: float = 40
+    backdrop_thickness: float = 6
+    backdrop_z: float = -20
+    # None => finish sits diametrically opposite START (floor(num_nodes / 2)).
+    finish_node: int | None = None
+
+
 Geometry = Union[
     GearGeometry,
     SphereGeometry,
     BoxGeometry,
     CylinderGeometry,
     PolygonGeometry,
+    CircularTrackGeometry,
 ]
 
 
@@ -116,12 +156,58 @@ class ExplodeBehavior(BaseModel):
     speed: float = 0.05
 
 
+class HingeJoint(BaseModel):
+    """One hinge in a fold chain. `pivot` is expressed in the *previous*
+    joint's already-rotated local frame (root-first), so a chain of joints
+    composes exactly like nested CSS/DOM transforms without the interpreter
+    needing a real entity parent/child tree."""
+
+    pivot: tuple[float, float, float]
+    axis: Literal["x", "y", "z"] = "x"
+    sign: Literal[1, -1] = 1
+
+
+class HingeFoldBehavior(BaseModel):
+    """Animates a flat net folding into a 3D solid (cube nets, box nets,
+    etc.). Every joint in `chain` rotates by the SAME global `foldAngle`
+    control (see ProblemMeta.controls `"fold"`), scaled by its own `sign`;
+    multi-hinge chains (e.g. a flap that is itself the hinge parent of
+    another flap) list every ancestor joint root-first so the composed
+    rotation matches what a real nested transform would produce."""
+
+    kind: Literal["hinge_fold"] = "hinge_fold"
+    chain: list[HingeJoint]
+
+
+class CircularJumpBehavior(BaseModel):
+    """Discrete step-hop movement around a shared circular node layout,
+    advanced one full turn at a time (see ProblemMeta.controls `"step"`).
+    Every racer entity shares the same `num_nodes`/`center`/`radius` so
+    their positions land on the same ring; `lane_offset` staggers radii so
+    multiple racers don't visually overlap. Each turn moves the entity
+    `step` nodes forward with a parabolic hop arc; once an entity lands
+    exactly on `finish_node` it freezes and ignores further turns."""
+
+    kind: Literal["circular_jump"] = "circular_jump"
+    num_nodes: int | ParamRef
+    step: int
+    # None => finish sits diametrically opposite START (floor(num_nodes / 2)),
+    # which keeps it consistent when num_nodes is a runtime parameter.
+    finish_node: int | None = None
+    center: tuple[float, float] = (0, 0)
+    radius: float = 180
+    lane_offset: float = 0
+    jump_height: float = 35
+
+
 Behavior = Union[
     RotateCoupledBehavior,
     ClickCollectBehavior,
     StackFallBehavior,
     PathFollowBehavior,
     ExplodeBehavior,
+    HingeFoldBehavior,
+    CircularJumpBehavior,
 ]
 
 
@@ -130,7 +216,38 @@ class LabelSpec(BaseModel):
 
     text: str
     offset: tuple[float, float, float] = (0, 0, 0)
-    variant: Literal["body", "caption", "chip"] = "body"
+    variant: Literal["body", "caption", "chip", "symbol"] = "body"
+    # False (default): billboarded, always faces the camera (fine for static
+    # diagram annotations). True: rendered via drei Html's `transform` mode
+    # so the label rotates along with its entity (needed e.g. for symbols
+    # painted on faces that fold in 3D).
+    follow_rotation: bool = False
+
+
+class PatternSpec(BaseModel):
+    """A colored face (optionally with a symbol) painted onto a flat panel as
+    a real WebGL texture plane, so it participates in depth testing and
+    perspective (unlike DOM `LabelSpec` overlays). Used for the "paper" look:
+    the panel body stays a neutral back/side color while this pattern plane
+    is the colored front face."""
+
+    color: str
+    # Symbol (e.g. an emoji) drawn centered on the colored face.
+    symbol: str | None = None
+    symbol_size: float = 60
+    # CSS-like transform of the symbol within the face: rotation is in
+    # degrees with the same sense as CSS `rotate()`, mirror flips
+    # horizontally BEFORE the rotation is applied (matching the
+    # `rotate(..) scaleX(-1)` composition in the CSS reference).
+    symbol_rotation_deg: float = 0
+    symbol_mirror_x: bool = False
+    # Placement of the pattern plane in the entity's local frame.
+    center: tuple[float, float] = (0, 0)
+    size: tuple[float, float]
+    offset_z: float = 0
+    # Border drawn inside the face edge (world units); 0 disables it.
+    border_color: str = "#222222"
+    border_width: float = 0
 
 
 class Entity(BaseModel):
@@ -142,3 +259,4 @@ class Entity(BaseModel):
     interactive: bool = False
     group_id: str | None = None
     label: LabelSpec | None = None
+    pattern: PatternSpec | None = None

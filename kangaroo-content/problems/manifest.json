@@ -26,6 +26,24 @@
       "year": "2020",
       "stats_type": "none",
       "path": "problems/MK_G5_6/MK_G5_6_2020_Cube3x3x3.json"
+    },
+    {
+      "id": "MK_G5_6_2023_AnimalJumpRace",
+      "title": "Animal Jumping Competition",
+      "description": "A mouse, rabbit and kangaroo start together and hop 1, 2 and 3 spaces at a time around a circular track. Change the number of spaces, then click Jump to play one turn at a time and see who lands exactly on FINISH in the fewest jumps -- this visualizes the 2023 Math Kangaroo Grade 5-6 beaver/rabbit/kangaroo race.",
+      "grade": "MK_G5_6",
+      "year": "2023",
+      "stats_type": "jump",
+      "path": "problems/MK_G5_6/MK_G5_6_2023_AnimalJumpRace.json"
+    },
+    {
+      "id": "MK_G5_6_2023_CubeNetFold",
+      "title": "Cube Net Folding Simulator",
+      "description": "Drag the slider to fold this 6-square net shut into a cube, and drag in the viewport to orbit around it and check where each kangaroo symbol ends up.",
+      "grade": "MK_G5_6",
+      "year": "2023",
+      "stats_type": "none",
+      "path": "problems/MK_G5_6/MK_G5_6_2023_CubeNetFold.json"
     }
   ]
 }

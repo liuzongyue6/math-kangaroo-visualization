@@ -3,16 +3,21 @@ import type { Group } from 'three';
 import type { ThreeEvent } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import { geometryRegistry } from '../geometries';
+import { PatternPlane } from './PatternPlane';
 import { useRotateCoupledBehavior } from '../behaviors/useRotateCoupledBehavior';
 import { useStackFallBehavior } from '../behaviors/useStackFallBehavior';
 import { usePathFollowBehavior } from '../behaviors/usePathFollowBehavior';
 import { useExplodeBehavior } from '../behaviors/useExplodeBehavior';
+import { useHingeFoldBehavior } from '../behaviors/useHingeFoldBehavior';
+import { useCircularJumpBehavior } from '../behaviors/useCircularJumpBehavior';
 import { useTriggerClick } from '../behaviors/useClickCollect';
 import { useGearDrag } from '../behaviors/useGearDrag';
 import { useProblemStore } from '../stores/problemStore';
 import type {
+  CircularJumpBehavior,
   Entity,
   ExplodeBehavior,
+  HingeFoldBehavior,
   PathFollowBehavior,
   ProblemConfig,
   RotateCoupledBehavior,
@@ -60,6 +65,30 @@ function ExplodeHost({
   return null;
 }
 
+function HingeFoldHost({
+  groupRef,
+  behavior,
+}: {
+  groupRef: React.RefObject<Group>;
+  behavior: HingeFoldBehavior;
+}) {
+  useHingeFoldBehavior(groupRef, behavior);
+  return null;
+}
+
+function CircularJumpHost({
+  groupRef,
+  entity,
+  behavior,
+}: {
+  groupRef: React.RefObject<Group>;
+  entity: Entity;
+  behavior: CircularJumpBehavior;
+}) {
+  useCircularJumpBehavior(groupRef, entity, behavior);
+  return null;
+}
+
 function PathFollowHost({
   groupRef,
   behavior,
@@ -102,7 +131,20 @@ const LABEL_VARIANT_STYLE: Record<string, React.CSSProperties> = {
     padding: '2px 8px',
     borderRadius: 999,
   },
+  // For `follow_rotation` labels rendered via Html's `transform` mode, the
+  // font size is interpreted in scene world-units (see the distanceFactor
+  // passed alongside `transform` below), not screen pixels — so it needs to
+  // be sized relative to the entity's own scale, not typical DOM text sizes.
+  symbol: {
+    fontSize: 40,
+    lineHeight: 1,
+  },
 };
+
+// drei's Html `transform` mode scales the element by `1 / ((distanceFactor
+// || 10) / 400)`; 400 cancels that out so `symbol` font sizes map ~1:1 to
+// scene world-units instead of being shrunk 40x.
+const FOLLOW_ROTATION_DISTANCE_FACTOR = 400;
 
 export function EntityNode({ entity, entities, paths, meta }: EntityNodeProps) {
   const ref = useRef<Group>(null);
@@ -120,6 +162,12 @@ export function EntityNode({ entity, entities, paths, meta }: EntityNodeProps) {
   );
   const explodeBehavior = entity.behaviors.find(
     (b): b is ExplodeBehavior => b.kind === 'explode',
+  );
+  const hingeFoldBehavior = entity.behaviors.find(
+    (b): b is HingeFoldBehavior => b.kind === 'hinge_fold',
+  );
+  const circularJumpBehavior = entity.behaviors.find(
+    (b): b is CircularJumpBehavior => b.kind === 'circular_jump',
   );
   const onCollectClick = useTriggerClick(entity, entities, meta);
   const gearDrag = useGearDrag(entity, rotateBehavior);
@@ -161,8 +209,14 @@ export function EntityNode({ entity, entities, paths, meta }: EntityNodeProps) {
       onPointerOut={gearDrag.onPointerOut}
     >
       <GeometryComp geo={entity.geometry} material={entity.material} />
+      {entity.pattern && <PatternPlane pattern={entity.pattern} />}
       {entity.label && (
-        <Html position={entity.label.offset} center>
+        <Html
+          position={entity.label.offset}
+          transform={entity.label.follow_rotation}
+          distanceFactor={entity.label.follow_rotation ? FOLLOW_ROTATION_DISTANCE_FACTOR : undefined}
+          center
+        >
           <span style={LABEL_VARIANT_STYLE[entity.label.variant]}>
             {entity.label.text}
           </span>
@@ -189,6 +243,12 @@ export function EntityNode({ entity, entities, paths, meta }: EntityNodeProps) {
       )}
       {explodeBehavior && (
         <ExplodeHost groupRef={ref} entity={entity} behavior={explodeBehavior} />
+      )}
+      {hingeFoldBehavior && (
+        <HingeFoldHost groupRef={ref} behavior={hingeFoldBehavior} />
+      )}
+      {circularJumpBehavior && (
+        <CircularJumpHost groupRef={ref} entity={entity} behavior={circularJumpBehavior} />
       )}
     </group>
   );

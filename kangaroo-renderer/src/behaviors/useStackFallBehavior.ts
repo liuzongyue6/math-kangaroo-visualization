@@ -3,6 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import type { Group } from 'three';
 import { useProblemStore } from '../stores/problemStore';
 import type { Entity, StackFallBehavior } from '../types/problem';
+import { clampDelta } from './clampDelta';
 
 function getStackOrder(entity: Entity, groupId: string): number | null {
   const behavior = entity.behaviors.find(
@@ -87,7 +88,9 @@ export function useStackFallBehavior(
     }
 
     const fallDurationSec = Math.max(behavior.fall_duration_ms, 1) / 1000;
-    const t = Math.min(1, delta / fallDurationSec);
+    // clampDelta: keep the fall from completing in one frame after an idle
+    // demand-frameloop gap (raw delta = whole idle time).
+    const t = Math.min(1, clampDelta(delta) / fallDurationSec);
     ref.current.position.y = currentY + (targetY - currentY) * t;
     invalidate();
   });

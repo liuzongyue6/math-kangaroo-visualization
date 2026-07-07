@@ -18,7 +18,7 @@ Visulization/
 │       ├── player/ProblemPlayer.tsx
 │       ├── scene/SceneInterpreter.tsx, EntityNode.tsx
 │       ├── geometries/        # gear/sphere/box/cylinder/polygon registry + materialProps.ts
-│       ├── behaviors/         # rotate_coupled, click_collect, stack_fall, path_follow
+│       ├── behaviors/         # rotate_coupled, click_collect, stack_fall, path_follow, explode, hinge_fold
 │       ├── ui/                # MUI-based ProblemHeader/StatsPanel/ControlBar/HistoryPanel
 │       ├── stores/problemStore.ts  # zustand bridge DOM ↔ Canvas
 │       └── types/problem.ts   # Must mirror Python schema
@@ -43,6 +43,7 @@ pip install pydantic
 python generators/mk_g1_2_2021_gear_ratio.py
 python generators/mk_g1_2_2025_drop_ball.py
 python generators/mk_g5_6_2020_cube3x3x3.py
+python generators/mk_g5_6_2023_cube_net_fold.py
 
 # Run dev server
 cd kangaroo-renderer
@@ -77,6 +78,7 @@ e.g. `MK_G1_2_2021_GearRatio`. This id string is used consistently as: the gener
 | Grid/flip-card collect (no column physics) | any | `click_collect` only | `coins` |
 | Maze / number-line jump | any + `SceneConfig.paths` | `path_follow` | — |
 | Nets / tangram / area / custom flat shapes | `polygon` (2D point list) | — | — |
+| Net folding (flat net → 3D solid, cube/box nets) | `polygon` | `hinge_fold` | `none` |
 | Coin stacks / pulleys / clock body | `cylinder` | — | — |
 
 **Coordinate rule:** HTML canvas (top-left origin) → scene coords:
@@ -109,6 +111,7 @@ Do NOT create per-problem React scene components.
 | Gear example generator | `kangaroo-content/generators/mk_g1_2_2021_gear_ratio.py` |
 | Drop balls generator | `kangaroo-content/generators/mk_g1_2_2025_drop_ball.py` |
 | Cube explode generator | `kangaroo-content/generators/mk_g5_6_2020_cube3x3x3.py` |
+| Cube net folding generator | `kangaroo-content/generators/mk_g5_6_2023_cube_net_fold.py` |
 | Problem discovery (manifest-driven) | `kangaroo-renderer/src/main.tsx` |
 | MUI theme | `kangaroo-renderer/src/theme.ts` |
 | State store | `kangaroo-renderer/src/stores/problemStore.ts` |
@@ -122,3 +125,6 @@ Do NOT create per-problem React scene components.
 - Canvas uses `frameloop="demand"`; behaviors call `invalidate()` when animating
 - `initial_state` must include all fields `problemStore` reads on reset
 - Behaviors are declared explicitly — never infer one behavior's effect from another's presence (e.g. `stack_fall` carries its own `stack_order`, it does not reach into `click_collect`)
+- `hinge_fold` bakes the whole hinge chain (root-first `HingeJoint` list) into each entity so multi-hinge folds (a flap that is itself the parent of another flap) compose correctly through pure math — no entity parent/child tree needed. Every joint reads the same global `foldAngle` scaled by its own `sign`
+- A behavior that sets a transform as a pure (non-eased) function of state should do it in `useEffect`, not `useFrame`: under `frameloop="demand"`, `useFrame` subscriber ordering can let drei `Html`'s own `transform`-mode frame callback read a stale `matrixWorld` (one invalidate-cycle behind), visibly detaching `follow_rotation` labels from a rotating entity. `useEffect` commits before the next requested frame, avoiding the race
+- `LabelSpec.follow_rotation: true` renders the label via `Html`'s `transform` mode (glued to the entity's 3D orientation instead of billboarding) — pair with `variant: "symbol"` since `transform` mode interprets font-size in scene world-units, not screen pixels

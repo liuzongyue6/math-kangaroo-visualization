@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import * as THREE from 'three';
 import { Outlines } from '@react-three/drei';
 import type { GearGeometry, Material } from '../types/problem';
-import { materialProps, OUTLINE_COLOR, OUTLINE_THICKNESS } from './materialProps';
+import { OUTLINE_COLOR, OUTLINE_THICKNESS } from './materialProps';
+import { EntityMaterial } from './EntityMaterial';
 
 type GearMeshProps = {
   geo: GearGeometry;
@@ -108,7 +109,7 @@ export function GearMesh({ geo, material }: GearMeshProps) {
   return (
     <group>
       <mesh geometry={bodyGeometry} position={[0, 0, zOffset]} castShadow receiveShadow>
-        <meshStandardMaterial {...materialProps(material)} />
+        <EntityMaterial material={material} />
         <Outlines thickness={OUTLINE_THICKNESS} color={OUTLINE_COLOR} />
       </mesh>
       {markedToothGeometry !== null && (

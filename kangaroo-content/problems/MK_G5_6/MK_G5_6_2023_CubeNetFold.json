@@ -1,0 +1,565 @@
+{
+  "meta": {
+    "id": "MK_G5_6_2023_CubeNetFold",
+    "title": "Cube Net Folding Simulator",
+    "description": "Drag the slider to fold this 6-square net shut into a cube, and drag in the viewport to orbit around it and check where each kangaroo symbol ends up.",
+    "stats_type": "none",
+    "on_white_collect_message": null,
+    "controls": [
+      "fold",
+      "reset"
+    ],
+    "params": []
+  },
+  "camera": {
+    "mode": "perspective",
+    "position": [
+      220.0,
+      200.0,
+      300.0
+    ],
+    "look_at": [
+      25.0,
+      0.0,
+      0.0
+    ],
+    "zoom": null,
+    "fov": 42.0,
+    "viewport_width": 640.0,
+    "viewport_height": 480.0,
+    "controls": "orbit",
+    "min_polar_angle": null,
+    "max_polar_angle": null,
+    "fold_center_shift": [
+      0.0,
+      0.0,
+      50.0
+    ]
+  },
+  "scene": {
+    "entities": [
+      {
+        "id": "base",
+        "geometry": {
+          "kind": "polygon",
+          "points": [
+            [
+              -50.0,
+              -50.0
+            ],
+            [
+              50.0,
+              -50.0
+            ],
+            [
+              50.0,
+              50.0
+            ],
+            [
+              -50.0,
+              50.0
+            ]
+          ],
+          "depth": 6.0
+        },
+        "material": {
+          "color": "#e0e0e0",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.7,
+          "wireframe": false
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": {
+          "color": "#6fbb6b",
+          "symbol": null,
+          "symbol_size": 50.0,
+          "symbol_rotation_deg": 270.0,
+          "symbol_mirror_x": true,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "size": [
+            100.0,
+            100.0
+          ],
+          "offset_z": 3.8,
+          "border_color": "#222222",
+          "border_width": 1.8
+        }
+      },
+      {
+        "id": "top",
+        "geometry": {
+          "kind": "polygon",
+          "points": [
+            [
+              -50.0,
+              0.0
+            ],
+            [
+              50.0,
+              0.0
+            ],
+            [
+              50.0,
+              100.0
+            ],
+            [
+              -50.0,
+              100.0
+            ]
+          ],
+          "depth": 6.0
+        },
+        "material": {
+          "color": "#e0e0e0",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.7,
+          "wireframe": false
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "hinge_fold",
+            "chain": [
+              {
+                "pivot": [
+                  0.0,
+                  50.0,
+                  0.0
+                ],
+                "axis": "x",
+                "sign": 1
+              }
+            ]
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": {
+          "color": "#fce98a",
+          "symbol": "🦘",
+          "symbol_size": 50.0,
+          "symbol_rotation_deg": 270.0,
+          "symbol_mirror_x": true,
+          "center": [
+            0.0,
+            50.0
+          ],
+          "size": [
+            100.0,
+            100.0
+          ],
+          "offset_z": 3.8,
+          "border_color": "#222222",
+          "border_width": 1.8
+        }
+      },
+      {
+        "id": "bottom",
+        "geometry": {
+          "kind": "polygon",
+          "points": [
+            [
+              -50.0,
+              -100.0
+            ],
+            [
+              50.0,
+              -100.0
+            ],
+            [
+              50.0,
+              0.0
+            ],
+            [
+              -50.0,
+              0.0
+            ]
+          ],
+          "depth": 6.0
+        },
+        "material": {
+          "color": "#e0e0e0",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.7,
+          "wireframe": false
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "hinge_fold",
+            "chain": [
+              {
+                "pivot": [
+                  0.0,
+                  -50.0,
+                  0.0
+                ],
+                "axis": "x",
+                "sign": -1
+              }
+            ]
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": {
+          "color": "#8bc6fc",
+          "symbol": "🦘",
+          "symbol_size": 50.0,
+          "symbol_rotation_deg": 270.0,
+          "symbol_mirror_x": true,
+          "center": [
+            0.0,
+            -50.0
+          ],
+          "size": [
+            100.0,
+            100.0
+          ],
+          "offset_z": 3.8,
+          "border_color": "#222222",
+          "border_width": 1.8
+        }
+      },
+      {
+        "id": "left",
+        "geometry": {
+          "kind": "polygon",
+          "points": [
+            [
+              -100.0,
+              -50.0
+            ],
+            [
+              0.0,
+              -50.0
+            ],
+            [
+              0.0,
+              50.0
+            ],
+            [
+              -100.0,
+              50.0
+            ]
+          ],
+          "depth": 6.0
+        },
+        "material": {
+          "color": "#e0e0e0",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.7,
+          "wireframe": false
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "hinge_fold",
+            "chain": [
+              {
+                "pivot": [
+                  -50.0,
+                  0.0,
+                  0.0
+                ],
+                "axis": "y",
+                "sign": 1
+              }
+            ]
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": {
+          "color": "#fce98a",
+          "symbol": "🦘",
+          "symbol_size": 50.0,
+          "symbol_rotation_deg": 270.0,
+          "symbol_mirror_x": true,
+          "center": [
+            -50.0,
+            0.0
+          ],
+          "size": [
+            100.0,
+            100.0
+          ],
+          "offset_z": 3.8,
+          "border_color": "#222222",
+          "border_width": 1.8
+        }
+      },
+      {
+        "id": "right",
+        "geometry": {
+          "kind": "polygon",
+          "points": [
+            [
+              0.0,
+              -50.0
+            ],
+            [
+              100.0,
+              -50.0
+            ],
+            [
+              100.0,
+              50.0
+            ],
+            [
+              0.0,
+              50.0
+            ]
+          ],
+          "depth": 6.0
+        },
+        "material": {
+          "color": "#e0e0e0",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.7,
+          "wireframe": false
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "hinge_fold",
+            "chain": [
+              {
+                "pivot": [
+                  50.0,
+                  0.0,
+                  0.0
+                ],
+                "axis": "y",
+                "sign": -1
+              }
+            ]
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": {
+          "color": "#6fbb6b",
+          "symbol": null,
+          "symbol_size": 50.0,
+          "symbol_rotation_deg": 270.0,
+          "symbol_mirror_x": true,
+          "center": [
+            50.0,
+            0.0
+          ],
+          "size": [
+            100.0,
+            100.0
+          ],
+          "offset_z": 3.8,
+          "border_color": "#222222",
+          "border_width": 1.8
+        }
+      },
+      {
+        "id": "far-right",
+        "geometry": {
+          "kind": "polygon",
+          "points": [
+            [
+              0.0,
+              -50.0
+            ],
+            [
+              100.0,
+              -50.0
+            ],
+            [
+              100.0,
+              50.0
+            ],
+            [
+              0.0,
+              50.0
+            ]
+          ],
+          "depth": 6.0
+        },
+        "material": {
+          "color": "#e0e0e0",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.7,
+          "wireframe": false
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "hinge_fold",
+            "chain": [
+              {
+                "pivot": [
+                  50.0,
+                  0.0,
+                  0.0
+                ],
+                "axis": "y",
+                "sign": -1
+              },
+              {
+                "pivot": [
+                  100.0,
+                  0.0,
+                  0.0
+                ],
+                "axis": "y",
+                "sign": -1
+              }
+            ]
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": {
+          "color": "#6fbb6b",
+          "symbol": null,
+          "symbol_size": 50.0,
+          "symbol_rotation_deg": 270.0,
+          "symbol_mirror_x": true,
+          "center": [
+            50.0,
+            0.0
+          ],
+          "size": [
+            100.0,
+            100.0
+          ],
+          "offset_z": 3.8,
+          "border_color": "#222222",
+          "border_width": 1.8
+        }
+      }
+    ],
+    "paths": {},
+    "initial_state": {
+      "isPlaying": false,
+      "isExploded": false,
+      "foldAngle": 0,
+      "coins": 0,
+      "history": [],
+      "rotations": {},
+      "collected": [],
+      "message": "",
+      "driverAngles": {}
+    }
+  }
+}

@@ -32,6 +32,7 @@ jobs:
           python generators/mk_g1_2_2021_gear_ratio.py
           python generators/mk_g1_2_2025_drop_ball.py
           python generators/mk_g5_6_2020_cube3x3x3.py
+          python generators/mk_g5_6_2023_cube_net_fold.py
 
       - name: Set up Node
         uses: actions/setup-node@v4

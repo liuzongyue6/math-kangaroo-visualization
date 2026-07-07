@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { Outlines } from '@react-three/drei';
 import type { CylinderGeometry, Material } from '../types/problem';
-import { materialProps, OUTLINE_COLOR, OUTLINE_THICKNESS } from './materialProps';
+import { OUTLINE_COLOR, OUTLINE_THICKNESS } from './materialProps';
+import { EntityMaterial } from './EntityMaterial';
 
 type CylinderMeshProps = {
   geo: CylinderGeometry;
@@ -16,7 +17,7 @@ export function CylinderMesh({ geo, material }: CylinderMeshProps) {
       <cylinderGeometry
         args={[geo.radius_top, radiusBottom, geo.height, geo.radial_segments, 1, geo.open_ended]}
       />
-      <meshStandardMaterial {...materialProps(material)} side={THREE.DoubleSide} />
+      <EntityMaterial material={material} side={THREE.DoubleSide} />
       {material.opacity >= 1 && (
         <Outlines thickness={OUTLINE_THICKNESS} color={OUTLINE_COLOR} />
       )}

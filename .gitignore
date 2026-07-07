@@ -23,6 +23,10 @@ dist-ssr/
 .env.*
 # Vite 缓存
 .vite/
+# TypeScript 增量编译缓存
+*.tsbuildinfo
+# 冒烟验证截图（scripts/cdp-verify.mjs 产物）
+kangaroo-renderer/verify-shots/
 
 # ========== 编辑器/系统缓存 ==========
 .vscode/

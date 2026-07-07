@@ -22,8 +22,16 @@ import '@fontsource/roboto/600.css';
 import '@fontsource/roboto/700.css';
 import { theme } from './theme';
 import { ProblemPlayer } from './player/ProblemPlayer';
+import { useProblemStore } from './stores/problemStore';
 import type { ProblemConfig, ProblemManifest, ProblemManifestEntry } from './types/problem';
 import './index.css';
+
+// Dev-only hook so automated checks (and manual console poking) can drive
+// the store directly: __problemStore.getState().setFoldAngle(90) etc.
+if (import.meta.env.DEV) {
+  (window as unknown as { __problemStore?: typeof useProblemStore }).__problemStore =
+    useProblemStore;
+}
 
 /** "MK_G1_2" -> "Grade 1-2"; falls back to the raw grade string if unparseable. */
 function formatGradeLabel(grade: string): string {
@@ -46,8 +54,12 @@ function App() {
       })
       .then((data: ProblemManifest) => {
         setManifest(data.problems);
-        if (data.problems.length > 0) {
-          setSelected(data.problems[0].id);
+        // ?problem=<id> deep-links straight to a specific problem.
+        const requested = new URLSearchParams(window.location.search).get('problem');
+        const initial =
+          (requested && data.problems.find((p) => p.id === requested)) || data.problems[0];
+        if (initial) {
+          setSelected(initial.id);
         }
       })
       .catch((e: Error) => setError(e.message));

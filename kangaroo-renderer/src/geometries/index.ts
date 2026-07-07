@@ -5,6 +5,7 @@ import { SphereMesh } from './SphereMesh';
 import { BoxMesh } from './BoxMesh';
 import { CylinderMesh } from './CylinderMesh';
 import { PolygonMesh } from './PolygonMesh';
+import { CircularTrackMesh } from './CircularTrackMesh';
 
 // Each mesh component below is strongly typed against its own Geometry
 // variant. The registry itself is intentionally loose (`geo: any`) because a
@@ -25,4 +26,5 @@ export const geometryRegistry: Record<
   box: BoxMesh,
   cylinder: CylinderMesh,
   polygon: PolygonMesh,
+  circular_track: CircularTrackMesh,
 };

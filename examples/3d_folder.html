@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D 立方体双向折叠模拟器</title>
+<style>
+    :root {
+        --fold: 0deg; /* 控制折叠角度 */
+        --center-z: 0px; /* 动态控制 3D 旋转的深度中心 */
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #1e1e1e;
+        color: #fff;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+    
+    /* 顶部提示 */
+    .header {
+        padding: 20px;
+        text-align: center;
+        background: #2a2a2a;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        z-index: 10;
+    }
+    .header h2 { margin: 0 0 10px 0; font-size: 20px; }
+    .header p { margin: 0; font-size: 14px; color: #aaa; }
+
+    /* 3D 场景与交互区 */
+    .scene-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: grab;
+        perspective: 1000px; /* 3D 透视视距 */
+    }
+    .scene-container:active { cursor: grabbing; }
+
+    /* 包装器：用于整体旋转视角 */
+    .cube-wrapper {
+        position: relative;
+        transform-style: preserve-3d;
+        /* 动态设置旋转原点：X=0, Y=0 (绿色面的中心), Z根据折叠程度深入 */
+        transform-origin: 0px 0px var(--center-z);
+        /* 初始视角为等距视角 */
+        transform: rotateX(-25deg) rotateY(-35deg);
+    }
+
+    /* 每一个面的 3D 容器 */
+    .face {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        transform-style: preserve-3d;
+    }
+
+    /* 面的正反物理材质 */
+    .side {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border: 2px solid #222;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        backface-visibility: hidden; /* 隐藏背面以实现双面效果 */
+    }
+    
+    /* 图案面（正面）颜色配置 */
+    .front.yellow { background-color: #fce98a; color: #000; }
+    .front.green  { background-color: #6fbb6b; }
+    .front.blue   { background-color: #8bc6fc; color: #000; }
+    
+    /* 纸张背面（空白灰色面） */
+    .back {
+        background-color: #e0e0e0;
+        transform: rotateY(180deg);
+    }
+
+    /* ================= 拓扑结构与折叠逻辑 ================= */
+    
+    /* 0. 中心基准面 (Face 0) */
+    .base {
+        top: -60px; left: -60px; /* 居中于 wrapper */
+    }
+
+    /* 1. 顶部面 (Face 1) */
+    .top {
+        top: -120px; left: 0;
+        transform-origin: bottom center;
+        transform: rotateX(calc(-1 * var(--fold)));
+    }
+
+    /* 2. 底部面 (Face 3) */
+    .bottom {
+        top: 120px; left: 0;
+        transform-origin: top center;
+        transform: rotateX(var(--fold));
+    }
+
+    /* 3. 左侧面 (Face 2) */
+    .left {
+        top: 0; left: -120px;
+        transform-origin: right center;
+        transform: rotateY(var(--fold));
+    }
+
+    /* 4. 右侧面 (Face 4) */
+    .right {
+        top: 0; left: 120px;
+        transform-origin: left center;
+        transform: rotateY(calc(-1 * var(--fold)));
+    }
+
+    /* 5. 最右侧面 (Face 5) */
+    .far-right {
+        top: 0; left: 120px;
+        transform-origin: left center;
+        transform: rotateY(calc(-1 * var(--fold)));
+    }
+
+    /* 底部控制面板 */
+    .controls {
+        padding: 30px;
+        background: #2a2a2a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 10;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+    }
+    .slider-container {
+        width: 100%;
+        max-width: 600px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    input[type=range] {
+        flex: 1;
+        cursor: pointer;
+    }
+    .value-display { font-weight: bold; width: 60px; text-align: center; color: #ffb74d; }
+</style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>3D 立方体双向折叠模拟器</h2>
+        <p>🖱️ 在空白处按下鼠标并拖动，可以 360° 旋转观察模型（绕中心点完美旋转）</p>
+    </div>
+
+    <div class="scene-container" id="scene">
+        <div class="cube-wrapper" id="cube-wrapper">
+            
+            <div class="face base">
+                <div class="side front green"></div>
+                <div class="side back"></div>
+                
+                <div class="face top">
+                    <div class="side front yellow">
+                        <span style="transform: rotate(270deg) scaleX(-1); display: inline-block;">🦘</span>
+                    </div>
+                    <div class="side back"></div>
+                </div>
+                
+                <div class="face bottom">
+                    <div class="side front blue">
+                        <span style="transform: rotate(270deg) scaleX(-1); display: inline-block;">🦘</span>
+                    </div>
+                    <div class="side back"></div>
+                </div>
+                
+                <div class="face left">
+                    <div class="side front yellow">
+                        <span style="transform: rotate(270deg) scaleX(-1); display: inline-block;">🦘</span>
+                    </div>
+                    <div class="side back"></div>
+                </div>
+                
+                <div class="face right">
+                    <div class="side front green"></div>
+                    <div class="side back"></div>
+                    
+                    <div class="face far-right">
+                        <div class="side front green"></div>
+                        <div class="side back"></div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="controls">
+        <div style="margin-bottom: 10px; font-size: 15px;">控制折叠程度（逻辑题通常为 -90° 图案朝外）</div>
+        <div class="slider-container">
+            <span style="font-size: 13px; color: #aaa;">向后折叠<br>(图案朝外)</span>
+            <input type="range" id="foldSlider" min="-90" max="90" value="0" step="1">
+            <span style="font-size: 13px; color: #aaa;">向前折叠<br>(图案朝内)</span>
+        </div>
+        <div class="value-display" id="angle-val">0°</div>
+    </div>
+
+<script>
+    const slider = document.getElementById('foldSlider');
+    const angleVal = document.getElementById('angle-val');
+    const root = document.documentElement;
+
+    slider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value);
+        
+        // 更新折叠角度
+        root.style.setProperty('--fold', `${val}deg`);
+        
+        // 【核心修改】动态计算立方体的重心 (Z轴深度)
+        // 立方体长宽是120px，折叠后深度中心偏移量为 60px。
+        // 当滑块到 90 或者 -90 时，中心点正好推移 60px。
+        const centerZ = (val / 90) * 60; 
+        root.style.setProperty('--center-z', `${centerZ}px`);
+        
+        angleVal.textContent = `${val}°`;
+    });
+
+    const scene = document.getElementById('scene');
+    const wrapper = document.getElementById('cube-wrapper');
+    
+    let isDragging = false;
+    let prevX = 0, prevY = 0;
+    let rotX = -25, rotY = -35; 
+
+    const updateRotation = () => {
+        wrapper.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    };
+
+    scene.addEventListener('mousedown', (e) => {
+        if(e.target.closest('.controls')) return;
+        isDragging = true;
+        prevX = e.clientX;
+        prevY = e.clientY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - prevX;
+        const deltaY = e.clientY - prevY;
+        
+        rotY += deltaX * 0.6;
+        rotX -= deltaY * 0.6;
+        
+        prevX = e.clientX;
+        prevY = e.clientY;
+        updateRotation();
+    });
+
+    window.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    scene.addEventListener('touchstart', (e) => {
+        if(e.target.closest('.controls')) return;
+        isDragging = true;
+        prevX = e.touches[0].clientX;
+        prevY = e.touches[0].clientY;
+    }, {passive: false});
+
+    window.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const deltaX = e.touches[0].clientX - prevX;
+        const deltaY = e.touches[0].clientY - prevY;
+        
+        rotY += deltaX * 0.8;
+        rotX -= deltaY * 0.8;
+        
+        prevX = e.touches[0].clientX;
+        prevY = e.touches[0].clientY;
+        updateRotation();
+    }, {passive: false});
+
+    window.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+</script>
+</body>
+</html>

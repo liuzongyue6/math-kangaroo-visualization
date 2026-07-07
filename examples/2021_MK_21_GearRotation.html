@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8:16 Gear Ratio Animation</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        canvas {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            background-color: #4285f4;
+            color: white;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #3367d6;
+        }
+        .stats {
+            display: flex;
+            gap: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .highlight {
+            color: #d93025;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Gear Ratio 2:1 Simulation</h1>
+    <p>Watch how the small gear must spin twice for every one spin of the large gear.</p>
+
+    <canvas id="gearCanvas" width="600" height="400"></canvas>
+
+    <div class="controls">
+        <button id="playBtn">Pause</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+
+    <div class="stats">
+        <div>Small Gear Rotations: <span id="smallCount" class="highlight">0.0</span></div>
+        <div>Large Gear Rotations: <span id="largeCount">0.0</span></div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gearCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let isPlaying = true;
+        let baseAngle = 0;
+        let speed = 0.02;
+
+        // Gear properties based on the image
+        const smallGear = { x: 220, y: 200, radius: 50, teeth: 8, color: '#ffb3ba' }; // Pink
+        const largeGear = { x: 385, y: 200, radius: 100, teeth: 16, color: '#b3b3ff' }; // Purple
+
+        function drawGear(x, y, radius, teethCount, currentAngle, color, isSmall) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(currentAngle);
+
+            const toothDepth = 12;
+            const innerRadius = radius - toothDepth;
+            const outerRadius = radius + toothDepth;
+            const anglePerTooth = (Math.PI * 2) / teethCount;
+
+            ctx.lineJoin = 'bevel';
+            ctx.lineWidth = 2;
+
+            // Draw all teeth
+            for (let i = 0; i < teethCount; i++) {
+                ctx.beginPath();
+                const start = i * anglePerTooth;
+                const end = start + anglePerTooth;
+                
+                // Tooth shape math
+                ctx.moveTo(Math.cos(start) * innerRadius, Math.sin(start) * innerRadius);
+                ctx.lineTo(Math.cos(start + 0.15) * outerRadius, Math.sin(start + 0.15) * outerRadius);
+                ctx.lineTo(Math.cos(end - 0.15) * outerRadius, Math.sin(end - 0.15) * outerRadius);
+                ctx.lineTo(Math.cos(end) * innerRadius, Math.sin(end) * innerRadius);
+                
+                // Color the first tooth black, rest normal color
+                ctx.fillStyle = (i === 0) ? '#000000' : color;
+                ctx.fill();
+                ctx.strokeStyle = '#333';
+                ctx.stroke();
+            }
+
+            // Draw inner gear body circle
+            ctx.beginPath();
+            ctx.arc(0, 0, innerRadius, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.stroke();
+
+            // Draw center axle hole
+            ctx.beginPath();
+            ctx.arc(0, 0, 8, 0, Math.PI * 2);
+            ctx.fillStyle = '#000';
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function animate() {
+            if (isPlaying) {
+                baseAngle += speed;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Small gear turns clockwise
+            const angleSmall = baseAngle;
+            // Large gear turns counter-clockwise at half speed
+            // The offset (+ Math.PI + Math.PI/16) ensures the teeth mesh and the black teeth start touching
+            const angleLarge = -(baseAngle / 2) + Math.PI + (Math.PI / 16);
+
+            drawGear(smallGear.x, smallGear.y, smallGear.radius, smallGear.teeth, angleSmall, smallGear.color, true);
+            drawGear(largeGear.x, largeGear.y, largeGear.radius, largeGear.teeth, angleLarge, largeGear.color, false);
+
+            // Update DOM counters
+            const smallRotations = Math.abs(baseAngle / (Math.PI * 2));
+            const largeRotations = smallRotations / 2;
+
+            document.getElementById('smallCount').innerText = smallRotations.toFixed(1);
+            document.getElementById('largeCount').innerText = largeRotations.toFixed(1);
+
+            // Highlight counter green when they align perfectly (every 2 full rotations of small gear)
+            if (smallRotations % 2 < 0.05 && smallRotations > 0.1) {
+                document.getElementById('smallCount').style.color = '#0f9d58';
+                document.getElementById('largeCount').style.color = '#0f9d58';
+            } else {
+                document.getElementById('smallCount').style.color = '#d93025';
+                document.getElementById('largeCount').style.color = '#333';
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Button Event Listeners
+        document.getElementById('playBtn').addEventListener('click', (e) => {
+            isPlaying = !isPlaying;
+            e.target.innerText = isPlaying ? 'Pause' : 'Play';
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            baseAngle = 0;
+            if (!isPlaying) {
+                isPlaying = true;
+                document.getElementById('playBtn').innerText = 'Pause';
+            }
+        });
+
+        // Start animation loop
+        animate();
+    </script>
+</body>
+</html>

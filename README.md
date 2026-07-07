@@ -22,6 +22,8 @@ pip install pydantic
 python generators/mk_g1_2_2021_gear_ratio.py
 python generators/mk_g1_2_2025_drop_ball.py
 python generators/mk_g5_6_2020_cube3x3x3.py
+python generators/mk_g5_6_2023_cube_net_fold.py
+python generators/mk_g5_6_2023_animal_jump_race.py
 ```
 
 Each generator writes its `ProblemConfig` JSON to `kangaroo-content/problems/<grade>/`, mirrors it to `kangaroo-renderer/public/problems/<grade>/`, and regenerates `problems/manifest.json` (also mirrored) so the frontend can discover every problem automatically — no React edits needed.
@@ -48,6 +50,8 @@ Open the URL shown in the terminal. Use the dropdown (grouped by grade band) to 
 - **MK_G1_2_2021_GearRatio** — coupled rotation, play/pause, rotation counters
 - **MK_G1_2_2025_DropBall** — click columns, coin counter, collected ball history
 - **MK_G5_6_2020_Cube3x3x3** — 27-cube 3x3x3 structure, orbit camera, Explode/Assemble toggle to reveal hidden interior cubes
+- **MK_G5_6_2023_CubeNetFold** — 6-square cube net, drag the fold slider to fold it shut into a cube, orbit camera to check where each symbol ends up
+- **MK_G5_6_2023_AnimalJumpRace** — mouse/rabbit/kangaroo hop 1/2/3 spaces per turn around a 20-space circular track; click Jump one turn at a time to see who lands exactly on FINISH first
 
 ### 3. Production build
 
@@ -67,7 +71,7 @@ npm run preview
 
 New problems are added by:
 1. Writing a Python generator (named `mk_g<low>_<high>_<year>_<short_name>.py`) that outputs `ProblemConfig` JSON via `generators._registry.write_problem(config, grade)`, where `grade` is the `MK_G<low>_<high>` folder name
-2. No new React scene components required if the problem can be expressed by existing geometries/behaviors (reuse `gear`/`sphere`/`box`/`cylinder`/`polygon` + `rotate_coupled`/`click_collect`/`stack_fall`/`path_follow`)
+2. No new React scene components required if the problem can be expressed by existing geometries/behaviors (reuse `gear`/`sphere`/`box`/`cylinder`/`polygon` + `rotate_coupled`/`click_collect`/`stack_fall`/`path_follow`/`explode`/`hinge_fold`/`circular_jump`)
 3. No `main.tsx` edits — the problem picker reads `public/problems/manifest.json`, which is rebuilt automatically by every generator run
 
 ## Supported Primitives (v2)
@@ -80,12 +84,14 @@ New problems are added by:
 - `stack_fall` — declared independently from `click_collect` so "falls into a column" physics can be mixed freely with any collection UX
 - `path_follow` — move along a named path from `SceneConfig.paths` (mazes, number lines), auto-start or click-triggered
 - `explode` — radially offsets an entity from the origin (its `transform.position` scaled by `target_factor`), driven by the global `isExploded` toggle; pair with `meta.controls: ["explode"]` for an Explode/Assemble button (3D structure/cube-count problems)
+- `hinge_fold` — animates a flat net folding into a 3D solid (cube/box nets). Each entity carries a root-first `chain` of `HingeJoint`s (pivot + axis + sign); every joint rotates by the same global `foldAngle`, so multi-hinge flaps compose correctly with no entity parent/child tree required. Pair with `meta.controls: ["fold"]` for a fold-angle slider (-90°..90°)
+- `circular_jump` — discrete, turn-based hop around a shared circular node layout (racing/track problems). Every racer entity declares the same `num_nodes`/`center`/`radius` plus its own `step` size and `lane_offset`; clicking Jump (`meta.controls: ["step"]`) advances the shared `turnCount`, and each racer hops `step` nodes with a parabolic arc, freezing once it lands exactly on `finish_node`
 
 **Material:** typed `Material` (`color`, `opacity`, `metalness`, `roughness`, `wireframe`) shared by every geometry — no more free-form dicts.
 
-**Labels:** optional `Entity.label` anchors DOM-rendered text to a 3D position via drei's `Html`, so per-entity annotations (tooth numbers, axis ticks) stay accessible/selectable without giving up 3D anchoring.
+**Labels:** optional `Entity.label` anchors DOM-rendered text to a 3D position via drei's `Html`, so per-entity annotations (tooth numbers, axis ticks) stay accessible/selectable without giving up 3D anchoring. By default labels billboard (always face the camera); set `follow_rotation: true` (with `variant: "symbol"`) to instead glue the label to the entity's live 3D orientation — needed for symbols painted on faces that rotate, e.g. `hinge_fold` flaps.
 
-**Stats:** `ProblemMeta.stats_type` picks the DOM stats panel: `gear` (rotation counters), `coins` (coin tally + collected history), or `none` (hide the panel for problems with no running tally, e.g. structure/exploration demos).
+**Stats:** `ProblemMeta.stats_type` picks the DOM stats panel: `gear` (rotation counters), `coins` (coin tally + collected history), `jump` (turn counter, per-racer status, and winner banner for `circular_jump` races), or `none` (hide the panel for problems with no running tally, e.g. structure/exploration demos).
 
 **Camera:** `orthographic` (2D) or `perspective` (3D). `camera.controls` picks the interaction model:
 - `locked` (default) — no OrbitControls, camera is fixed at the authored angle for a clean "diagram" look

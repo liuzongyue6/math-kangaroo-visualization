@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Jumping Competition (Manual Control)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 { margin-bottom: 5px; }
+        p { color: #666; margin-bottom: 20px; }
+        
+        .controls { 
+            margin-bottom: 20px; 
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .control-row { margin-bottom: 10px; }
+        
+        input[type="number"] {
+            padding: 8px;
+            font-size: 16px;
+            width: 80px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 0 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #45a049; }
+        button.action { background-color: #2196F3; font-size: 18px; padding: 12px 30px;}
+        button.action:hover { background-color: #0b7dda; }
+        button.reset { background-color: #f44336; }
+        button.reset:hover { background-color: #da190b; }
+        button:disabled { background-color: #cccccc; cursor: not-allowed; }
+
+        #track-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .node {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #e0e0e0;
+            border: 2px solid #bbb;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .label {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+            background: rgba(255,255,255,0.9);
+            padding: 2px 6px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 5;
+        }
+
+        .animal {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            font-size: 24px;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Jumping Competition Control Panel</h1>
+    <p>Mouse (1 space) 🐁 | Rabbit (2 spaces) 🐇 | Kangaroo (3 spaces) 🦘</p>
+
+    <div class="controls">
+        <div class="control-row">
+            <label for="node-count"><strong>Total Spaces on Track:</strong></label>
+            <input type="number" id="node-count" value="20" min="5" max="60">
+            <button onclick="applySettings()">Generate Track</button>
+        </div>
+        <div class="control-row">
+            <button id="jump-btn" class="action" onclick="jumpOneTurn()">▶ Jump One Turn</button>
+            <button class="reset" onclick="resetRace()">Reset Positions</button>
+        </div>
+    </div>
+
+    <div id="track-container"></div>
+
+    <script>
+        const container = document.getElementById('track-container');
+        let numNodes = 20;
+        let finishNode = 10;
+        const baseRadius = 180;
+        const center = 250; 
+        
+        let racers = [];
+        let isAnimating = false;
+        let lastTime = 0;
+        const animationSpeed = 0.003; 
+
+        // Initialize or recreate the track based on user input
+        function applySettings() {
+            if (isAnimating) return; // Prevent breaking the track mid-jump
+            
+            let inputVal = parseInt(document.getElementById('node-count').value);
+            if (inputVal && inputVal >= 5) {
+                numNodes = inputVal;
+            } else {
+                alert("Please enter a valid number of spaces (minimum 5).");
+                return;
+            }
+            
+            // Set finish line to the exact opposite side of the circle
+            finishNode = Math.floor(numNodes / 2);
+            buildTrack();
+        }
+
+        function buildTrack() {
+            // Clear the existing track
+            container.innerHTML = ''; 
+
+            // Draw the nodes (spaces) around the circle
+            for (let i = 0; i < numNodes; i++) {
+                const angle = (i / numNodes) * 2 * Math.PI;
+                const x = center + baseRadius * Math.sin(angle);
+                const y = center - baseRadius * Math.cos(angle);
+
+                const node = document.createElement('div');
+                node.className = 'node';
+                node.style.left = x + 'px';
+                node.style.top = y + 'px';
+                container.appendChild(node);
+
+                // Add START label
+                if (i === 0) {
+                    const label = document.createElement('div');
+                    label.className = 'label';
+                    label.innerText = 'START (0)';
+                    label.style.left = x + 'px';
+                    label.style.top = (y - 35) + 'px';
+                    container.appendChild(label);
+                }
+                // Add FINISH label
+                if (i === finishNode) {
+                    const label = document.createElement('div');
+                    label.className = 'label';
+                    label.innerText = `FINISH (${finishNode})`;
+                    label.style.left = x + 'px';
+                    label.style.top = (y + 35) + 'px';
+                    container.appendChild(label);
+                }
+            }
+
+            // Define the racers
+            racers = [
+                { id: 'mouse', emoji: '🐁', step: 1, laneOffset: -25, el: null, pos: 0, startPos: 0, targetPos: 0, progress: 0, jumping: false, finished: false },
+                { id: 'rabbit', emoji: '🐇', step: 2, laneOffset: 0, el: null, pos: 0, startPos: 0, targetPos: 0, progress: 0, jumping: false, finished: false },
+                { id: 'kangaroo', emoji: '🦘', step: 3, laneOffset: 25, el: null, pos: 0, startPos: 0, targetPos: 0, progress: 0, jumping: false, finished: false }
+            ];
+
+            // Create and append animal elements to the DOM
+            racers.forEach(racer => {
+                const el = document.createElement('div');
+                el.className = 'animal';
+                el.innerText = racer.emoji;
+                container.appendChild(el);
+                racer.el = el;
+                updatePosition(racer, 0);
+            });
+            
+            // Enable the jump button
+            document.getElementById('jump-btn').disabled = false;
+        }
+
+        // Calculate and apply XY coordinates
+        function updatePosition(racer, exactIndex) {
+            const angle = (exactIndex / numNodes) * 2 * Math.PI;
+            
+            // Parabolic jump arc effect
+            let jumpArc = 0;
+            if (racer.jumping) {
+                jumpArc = Math.sin(racer.progress * Math.PI) * 35; 
+            }
+
+            // Stagger the lanes so animals do not overlap
+            const currentRadius = baseRadius + racer.laneOffset + jumpArc;
+            
+            const x = center + currentRadius * Math.sin(angle);
+            const y = center - currentRadius * Math.cos(angle);
+
+            racer.el.style.left = x + 'px';
+            racer.el.style.top = y + 'px';
+        }
+
+        // Reset positions back to start
+        function resetRace() {
+            if (isAnimating) return;
+            racers.forEach(racer => {
+                racer.pos = 0;
+                racer.startPos = 0;
+                racer.targetPos = 0;
+                racer.progress = 0;
+                racer.jumping = false;
+                racer.finished = false;
+                updatePosition(racer, 0);
+            });
+            document.getElementById('jump-btn').disabled = false;
+        }
+
+        // Trigger one manual jump for all active animals
+        function jumpOneTurn() {
+            if (isAnimating) return;
+
+            let anyJumping = false;
+
+            racers.forEach(racer => {
+                if (!racer.finished) {
+                    racer.jumping = true;
+                    racer.startPos = racer.pos;
+                    racer.targetPos = racer.pos + racer.step;
+                    racer.progress = 0;
+                    anyJumping = true;
+                }
+            });
+
+            if (anyJumping) {
+                isAnimating = true;
+                document.getElementById('jump-btn').disabled = true; // Disable button during animation
+                lastTime = performance.now();
+                requestAnimationFrame(animateTurn);
+            }
+        }
+
+        // Animation loop for a single turn
+        function animateTurn(time) {
+            const dt = time - lastTime;
+            lastTime = time;
+            let stillAnimating = false;
+            let newWinners = [];
+
+            racers.forEach(racer => {
+                if (racer.jumping) {
+                    racer.progress += dt * animationSpeed;
+                    
+                    if (racer.progress >= 1) {
+                        // Finish the current jump
+                        racer.progress = 1;
+                        racer.jumping = false;
+                        racer.pos = racer.targetPos;
+                        
+                        // Check if they landed exactly on the Finish Line
+                        if (racer.pos > 0 && (racer.pos % numNodes) === finishNode) {
+                            racer.finished = true;
+                            newWinners.push(racer.emoji);
+                        }
+                    } else {
+                        stillAnimating = true; // Keep animating if any animal is still in the air
+                    }
+
+                    // Linear interpolation to find the exact visual position
+                    const currentExactPos = racer.startPos + (racer.targetPos - racer.startPos) * racer.progress;
+                    updatePosition(racer, currentExactPos);
+                }
+            });
+
+            if (stillAnimating) {
+                requestAnimationFrame(animateTurn);
+            } else {
+                isAnimating = false;
+                document.getElementById('jump-btn').disabled = false; // Re-enable button
+                
+                // Announce winners for this specific turn
+                if (newWinners.length > 0) {
+                    setTimeout(() => {
+                        alert(newWinners.join(" and ") + " landed exactly on the Finish Line!");
+                    }, 100);
+                }
+            }
+        }
+
+        // Generate the track on initial page load
+        window.onload = buildTrack;
+
+    </script>
+</body>
+</html>

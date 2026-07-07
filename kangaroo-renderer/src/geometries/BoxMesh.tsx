@@ -1,6 +1,7 @@
 import { Outlines, RoundedBox } from '@react-three/drei';
 import type { BoxGeometry, Material } from '../types/problem';
-import { materialProps, OUTLINE_COLOR, OUTLINE_THICKNESS } from './materialProps';
+import { OUTLINE_COLOR, OUTLINE_THICKNESS } from './materialProps';
+import { EntityMaterial } from './EntityMaterial';
 
 type BoxMeshProps = {
   geo: BoxGeometry;
@@ -14,7 +15,7 @@ export function BoxMesh({ geo, material }: BoxMeshProps) {
     const radius = Math.min(geo.corner_radius, w / 2, h / 2, d / 2);
     return (
       <RoundedBox args={[w, h, d]} radius={radius} smoothness={4} castShadow receiveShadow>
-        <meshStandardMaterial {...materialProps(material)} />
+        <EntityMaterial material={material} />
         <Outlines thickness={OUTLINE_THICKNESS} color={OUTLINE_COLOR} />
       </RoundedBox>
     );
@@ -23,7 +24,7 @@ export function BoxMesh({ geo, material }: BoxMeshProps) {
   return (
     <mesh castShadow receiveShadow>
       <boxGeometry args={geo.size} />
-      <meshStandardMaterial {...materialProps(material)} />
+      <EntityMaterial material={material} />
       {material.opacity >= 1 && (
         <Outlines thickness={OUTLINE_THICKNESS} color={OUTLINE_COLOR} />
       )}

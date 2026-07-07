@@ -17,7 +17,7 @@ export function ProblemPlayer({ config }: ProblemPlayerProps) {
   const init = useProblemStore((s) => s.init);
 
   useEffect(() => {
-    init(config.scene.initial_state);
+    init(config.scene.initial_state, config.meta.params);
   }, [config, init]);
 
   const { viewport_width, viewport_height } = config.camera;
@@ -48,7 +48,7 @@ export function ProblemPlayer({ config }: ProblemPlayerProps) {
           </Canvas>
         </Box>
       </Paper>
-      <ControlBar meta={config.meta} />
+      <ControlBar meta={config.meta} config={config} />
       <HistoryPanel meta={config.meta} />
     </Stack>
   );
