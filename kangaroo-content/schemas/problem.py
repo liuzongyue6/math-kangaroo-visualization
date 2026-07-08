@@ -65,3 +65,11 @@ class ProblemConfig(BaseModel):
     meta: ProblemMeta
     camera: CameraConfig
     scene: SceneConfig
+
+
+class PipelineHealth(BaseModel):
+    category: Literal[1, 2]  # 1=完全复用, 2=需扩展
+    needs_new_behavior: list[str] = []   # e.g. ["drag_rotate"]
+    needs_new_geometry: list[str] = []
+    implemented: bool = True  # False = 待开发
+    notes: str = ""

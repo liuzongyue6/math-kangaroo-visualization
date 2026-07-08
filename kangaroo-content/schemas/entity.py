@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Literal, Union
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class ParamRef(BaseModel):
@@ -16,8 +16,7 @@ class ParamRef(BaseModel):
 
     param: str = Field(alias="$param")
 
-    class Config:
-        allow_population_by_field_name = True
+    model_config = ConfigDict(populate_by_name=True)
 
 
 class Transform(BaseModel):
