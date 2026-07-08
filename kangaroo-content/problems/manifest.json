@@ -1,6 +1,15 @@
 {
   "problems": [
     {
+      "id": "MK_G1_2_2015_RoundTowerTopView",
+      "title": "What does the round tower look like from above?",
+      "description": "Drag to orbit the tower and figure out what its silhouette looks like from directly above.",
+      "grade": "MK_G1_2",
+      "year": "2015",
+      "stats_type": "none",
+      "path": "problems/MK_G1_2/MK_G1_2_2015_RoundTowerTopView.json"
+    },
+    {
       "id": "MK_G1_2_2021_GearRatio",
       "title": "Gear Ratio 2:1 Simulation",
       "description": "Watch how the small gear must spin twice for every one spin of the large gear. Pause the animation, then drag either gear to turn it by hand.",

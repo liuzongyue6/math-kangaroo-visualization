@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Kangaroo 3D Prototype - Round Tower</title>
+    <style>
+        :root {
+            --primary: #1976d2;
+            --primary-hover: #1565c0;
+            --bg: #f5f5f5;
+            --panel-bg: #ffffff;
+            --text: #333333;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--panel-bg);
+            padding: 16px 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .question {
+            font-size: 1rem;
+            margin-top: 8px;
+            color: #666;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+        }
+
+        .canvas-container:active {
+            cursor: grabbing;
+        }
+
+        canvas {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            touch-action: none; /* 阻止移动端默认滚动以便拖拽 */
+        }
+
+        .hint {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .controls {
+            background-color: var(--panel-bg);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button.outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        button.outline:hover {
+            background-color: rgba(25, 118, 210, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>7. What does the round tower look like from above?</h1>
+    <div class="question">你可以自由拖拽旋转下方的 3D 模型，观察它的俯视图。</div>
+</header>
+
+<main>
+    <div class="canvas-container" id="container">
+        <div class="hint">🖱️ 拖拽以旋转模型 (Drag to Rotate)</div>
+        <canvas id="towerCanvas"></canvas>
+    </div>
+</main>
+
+<div class="controls">
+    <button class="outline" id="btnFront">Front View</button>
+    <button class="outline" id="btnIsometric">Isometric</button>
+    <button id="btnTop">Top View</button>
+</div>
+
+<script>
+    const canvas = document.getElementById('towerCanvas');
+    const ctx = canvas.getContext('2d');
+    const container = document.getElementById('container');
+
+    // --- 相机与交互状态 ---
+    let rotX = 0.3; // Pitch (绕 X 轴旋转)
+    let rotY = -0.5; // Yaw (绕 Y 轴旋转)
+    let scale = 1.5;
+
+    let targetRotX = rotX;
+    let targetRotY = rotY;
+
+    // --- 几何常量 (Scene Units) ---
+    const R = 60;          // 半径
+    const H_CYL = 100;     // 圆柱高度
+    const H_CONE = 80;     // 圆锥高度
+    const SEGMENTS = 36;   // 多边形逼近段数
+
+    // 构建几何体数据 (Vertices & Faces)
+    const vertices = [];
+    const faces = [];
+
+    // 顶点定义: (坐标系：原点位于圆柱顶面中心，Y轴向上)
+    vertices.push({ x: 0, y: -H_CYL, z: 0 }); // 0: 底面中心
+    vertices.push({ x: 0, y: H_CONE, z: 0 }); // 1: 圆锥顶点
+
+    const BOTTOM_OFFSET = 2;
+    for (let i = 0; i < SEGMENTS; i++) {
+        let angle = (i / SEGMENTS) * Math.PI * 2;
+        vertices.push({ x: R * Math.cos(angle), y: -H_CYL, z: R * Math.sin(angle) });
+    }
+    const MID_OFFSET = 2 + SEGMENTS;
+    for (let i = 0; i < SEGMENTS; i++) {
+        let angle = (i / SEGMENTS) * Math.PI * 2;
+        vertices.push({ x: R * Math.cos(angle), y: 0, z: R * Math.sin(angle) });
+    }
+
+    // 面定义: 每个面包含顶点索引
+    // 1. 底面 (Bottom Cap)
+    for (let i = 0; i < SEGMENTS; i++) {
+        let next = (i + 1) % SEGMENTS;
+        faces.push([0, BOTTOM_OFFSET + next, BOTTOM_OFFSET + i]);
+    }
+    // 2. 圆柱侧面 (Cylinder Wall) - 拆分为两个三角形
+    for (let i = 0; i < SEGMENTS; i++) {
+        let next = (i + 1) % SEGMENTS;
+        faces.push([BOTTOM_OFFSET + i, BOTTOM_OFFSET + next, MID_OFFSET + next]);
+        faces.push([BOTTOM_OFFSET + i, MID_OFFSET + next, MID_OFFSET + i]);
+    }
+    // 3. 圆锥侧面 (Cone Wall)
+    for (let i = 0; i < SEGMENTS; i++) {
+        let next = (i + 1) % SEGMENTS;
+        faces.push([MID_OFFSET + i, MID_OFFSET + next, 1]);
+    }
+
+    // --- 自适应 Canvas 尺寸 ---
+    function resize() {
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        render();
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // --- 3D 核心渲染函数 ---
+    function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2 + 30; // 整体向下稍微偏移
+
+        // 预计算旋转矩阵值
+        const cxX = Math.cos(rotX), sxX = Math.sin(rotX);
+        const cxY = Math.cos(rotY), sxY = Math.sin(rotY);
+
+        // 1. 变换所有顶点
+        const projected = vertices.map(v => {
+            // 绕 Y 轴旋转 (Yaw)
+            let x1 = v.x * cxY + v.z * sxY;
+            let z1 = -v.x * sxY + v.z * cxY;
+            let y1 = v.y;
+
+            // 绕 X 轴旋转 (Pitch)
+            let y2 = y1 * cxX - z1 * sxX;
+            let z2 = y1 * sxX + z1 * cxX;
+
+            return {
+                x: x1 * scale,
+                y: y2 * scale,
+                z: z2 * scale,
+                // 投影到 2D 屏幕坐标 (Y轴翻转)
+                screenX: cx + x1 * scale,
+                screenY: cy - y2 * scale
+            };
+        });
+
+        // 2. 计算法线、剔除背面并进行画家算法排序
+        const renderFaces = [];
+        for (let i = 0; i < faces.length; i++) {
+            const face = faces[i];
+            const p0 = projected[face[0]];
+            const p1 = projected[face[1]];
+            const p2 = projected[face[2]];
+
+            // 计算面法线 (使用 3D 坐标)
+            const ux = p1.x - p0.x, uy = p1.y - p0.y, uz = p1.z - p0.z;
+            const vx = p2.x - p1.x, vy = p2.y - p1.y, vz = p2.z - p1.z;
+            
+            // 法向量 (Cross Product)
+            let nx = uy * vz - uz * vy;
+            let ny = uz * vx - ux * vz;
+            let nz = ux * vy - uy * vx;
+
+            // +Z 轴指向观察者，所以 nz > 0 代表面朝向观察者
+            if (nz > 0) {
+                // 归一化法向量计算光照
+                const len = Math.sqrt(nx*nx + ny*ny + nz*nz);
+                const normalZ = nz / len; 
+
+                // 计算面的平均 Z 深度用于排序
+                const avgZ = (p0.z + p1.z + p2.z) / 3;
+                
+                renderFaces.push({
+                    face: face,
+                    avgZ: avgZ,
+                    intensity: normalZ
+                });
+            }
+        }
+
+        // 画家算法：按 Z 深度从小到大排序 (距离观察者从远到近)
+        renderFaces.sort((a, b) => a.avgZ - b.avgZ);
+
+        // 3. 绘制多边形
+        for (let i = 0; i < renderFaces.length; i++) {
+            const rf = renderFaces[i];
+            const p0 = projected[rf.face[0]];
+            
+            ctx.beginPath();
+            ctx.moveTo(p0.screenX, p0.screenY);
+            for (let j = 1; j < rf.face.length; j++) {
+                const p = projected[rf.face[j]];
+                ctx.lineTo(p.screenX, p.screenY);
+            }
+            ctx.closePath();
+
+            // 基础光照计算：光线方向假定从摄像机射出
+            // 映射明暗：白色到浅灰色
+            const brightness = Math.floor(180 + 75 * rf.intensity); 
+            ctx.fillStyle = `rgb(${brightness}, ${brightness}, ${brightness})`;
+            ctx.fill();
+
+            // 绘制非常细的边框，增强模型的几何感，同时消除相邻面之间的缝隙
+            ctx.strokeStyle = `rgba(0, 0, 0, 0.15)`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+        }
+    }
+
+    // --- 动画与平滑过渡 ---
+    function animate() {
+        // 缓动动画处理点击按钮时的视角切换
+        rotX += (targetRotX - rotX) * 0.1;
+        rotY += (targetRotY - rotY) * 0.1;
+
+        render();
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // --- 鼠标/触摸拖拽交互 ---
+    let isDragging = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+
+    function startDrag(x, y) {
+        isDragging = true;
+        lastMouseX = x;
+        lastMouseY = y;
+        document.querySelector('.hint').style.opacity = 0; // 隐藏提示
+    }
+
+    function doDrag(x, y) {
+        if (!isDragging) return;
+        const deltaX = x - lastMouseX;
+        const deltaY = y - lastMouseY;
+        
+        targetRotY += deltaX * 0.01;
+        targetRotX += deltaY * 0.01;
+        
+        // 限制 Pitch 在上下各 90 度之内，防止模型倒转
+        targetRotX = Math.max(-Math.PI/2, Math.min(Math.PI/2, targetRotX));
+
+        lastMouseX = x;
+        lastMouseY = y;
+    }
+
+    function endDrag() {
+        isDragging = false;
+    }
+
+    // 鼠标事件
+    canvas.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
+    window.addEventListener('mousemove', e => doDrag(e.clientX, e.clientY));
+    window.addEventListener('mouseup', endDrag);
+
+    // 触摸事件 (移动端)
+    canvas.addEventListener('touchstart', e => startDrag(e.touches[0].clientX, e.touches[0].clientY));
+    window.addEventListener('touchmove', e => doDrag(e.touches[0].clientX, e.touches[0].clientY));
+    window.addEventListener('touchend', endDrag);
+
+    // --- 控制按钮事件 ---
+    document.getElementById('btnTop').addEventListener('click', () => {
+        targetRotX = Math.PI / 2; // 俯角 90 度
+        targetRotY = 0;
+    });
+
+    document.getElementById('btnFront').addEventListener('click', () => {
+        targetRotX = 0;           // 平视
+        targetRotY = 0;
+    });
+
+    document.getElementById('btnIsometric').addEventListener('click', () => {
+        targetRotX = 0.3;         // 恢复默认等距视角
+        targetRotY = -0.5;
+    });
+
+</script>
+</body>
+</html>

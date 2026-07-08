@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "id": "MK_G1_2_2015_RoundTowerTopView",
+    "title": "What does the round tower look like from above?",
+    "description": "Drag to orbit the tower and figure out what its silhouette looks like from directly above.",
+    "stats_type": "none",
+    "on_white_collect_message": null,
+    "controls": [],
+    "params": []
+  },
+  "camera": {
+    "mode": "orthographic",
+    "position": [
+      -117.09340988980595,
+      89.15342993841735,
+      214.3380490967332
+    ],
+    "look_at": [
+      0.0,
+      -10.0,
+      0.0
+    ],
+    "zoom": 1.3,
+    "fov": null,
+    "viewport_width": 600.0,
+    "viewport_height": 460.0,
+    "controls": "orbit",
+    "min_polar_angle": null,
+    "max_polar_angle": null,
+    "fold_center_shift": null
+  },
+  "scene": {
+    "entities": [
+      {
+        "id": "tower-cylinder",
+        "geometry": {
+          "kind": "cylinder",
+          "radius_top": 60.0,
+          "radius_bottom": 60.0,
+          "height": 100.0,
+          "radial_segments": 32,
+          "open_ended": false
+        },
+        "material": {
+          "color": "#c9c9c9",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.65,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            0.0,
+            -50.0,
+            0.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "tower-cone",
+        "geometry": {
+          "kind": "cylinder",
+          "radius_top": 0.0,
+          "radius_bottom": 60.0,
+          "height": 80.0,
+          "radial_segments": 32,
+          "open_ended": false
+        },
+        "material": {
+          "color": "#c9c9c9",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.65,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            0.0,
+            40.0,
+            0.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      }
+    ],
+    "paths": {},
+    "initial_state": {}
+  }
+}
