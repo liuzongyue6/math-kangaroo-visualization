@@ -8,7 +8,8 @@
     "controls": [
       "play",
       "reset"
-    ]
+    ],
+    "params": []
   },
   "camera": {
     "mode": "perspective",
@@ -28,7 +29,8 @@
     "viewport_height": 400.0,
     "controls": "locked",
     "min_polar_angle": null,
-    "max_polar_angle": null
+    "max_polar_angle": null,
+    "fold_center_shift": null
   },
   "scene": {
     "entities": [
@@ -46,7 +48,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.6,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -77,7 +80,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "large-gear",
@@ -93,7 +97,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.6,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -124,7 +129,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       }
     ],
     "paths": {},

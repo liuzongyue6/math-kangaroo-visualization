@@ -8,6 +8,7 @@ Visulization/
 │   ├── schemas/entity.py      # Geometry, Material, Behavior, Entity, LabelSpec
 │   ├── schemas/problem.py     # ProblemConfig, CameraConfig, SceneConfig
 │   ├── generators/_registry.py# write_problem() + manifest rebuild helper
+│   ├── generators/run_all.py  # Discovers + runs every generators/mk_*.py (used by CI)
 │   ├── generators/*.py        # One script per problem, named mk_g<low>_<high>_<year>_<short_name>.py
 │   └── problems/MK_G{low}_{high}/*.json + problems/manifest.json
 ├── kangaroo-renderer/         # React + R3F player (generic, no per-problem scenes)
@@ -37,13 +38,11 @@ Visulization/
 ## Commands
 
 ```bash
-# Generate JSON (also rebuilds manifest.json)
+# Generate JSON for every problem (also rebuilds manifest.json); discovers
+# generators/mk_*.py by filename, so new generator scripts need no edit here
 cd kangaroo-content
 pip install pydantic
-python generators/mk_g1_2_2021_gear_ratio.py
-python generators/mk_g1_2_2025_drop_ball.py
-python generators/mk_g5_6_2020_cube3x3x3.py
-python generators/mk_g5_6_2023_cube_net_fold.py
+python generators/run_all.py
 
 # Run dev server
 cd kangaroo-renderer
@@ -108,10 +107,12 @@ Do NOT create per-problem React scene components.
 | Problem JSON schema | `kangaroo-content/schemas/problem.py` |
 | Entity/Geometry/Behavior schema | `kangaroo-content/schemas/entity.py` |
 | Generator → JSON + manifest helper | `kangaroo-content/generators/_registry.py` |
+| Run every generator (used by CI) | `kangaroo-content/generators/run_all.py` |
 | Gear example generator | `kangaroo-content/generators/mk_g1_2_2021_gear_ratio.py` |
 | Drop balls generator | `kangaroo-content/generators/mk_g1_2_2025_drop_ball.py` |
 | Cube explode generator | `kangaroo-content/generators/mk_g5_6_2020_cube3x3x3.py` |
 | Cube net folding generator | `kangaroo-content/generators/mk_g5_6_2023_cube_net_fold.py` |
+| Animal jump race generator | `kangaroo-content/generators/mk_g5_6_2023_animal_jump_race.py` |
 | Problem discovery (manifest-driven) | `kangaroo-renderer/src/main.tsx` |
 | MUI theme | `kangaroo-renderer/src/theme.ts` |
 | State store | `kangaroo-renderer/src/stores/problemStore.ts` |

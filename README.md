@@ -2,6 +2,9 @@
 
 Monorepo for declarative Math Kangaroo problem visualizations: Python generates JSON configs, React + R3F renders them through a reusable Entity/Behavior interpreter. The DOM shell uses Google Material Design (MUI).
 
+# Overall workflow
+Python 生成数据 → JSON 是唯一的"内容"载体 → React+WebGL 通用播放器解释数据 → Vite 打包 → GitHub Pages 部署。
+
 ## Structure
 
 ```
@@ -19,11 +22,15 @@ Visulization/
 ```bash
 cd kangaroo-content
 pip install pydantic
+python generators/run_all.py
+```
+
+`run_all.py` discovers every `generators/mk_*.py` script by filename convention and runs each one, so adding a new generator later needs no edits here (or in CI). To run a single generator instead (e.g. while iterating on one problem):
+
+
+```bash
+python generators/run_all.py
 python generators/mk_g1_2_2021_gear_ratio.py
-python generators/mk_g1_2_2025_drop_ball.py
-python generators/mk_g5_6_2020_cube3x3x3.py
-python generators/mk_g5_6_2023_cube_net_fold.py
-python generators/mk_g5_6_2023_animal_jump_race.py
 ```
 
 Each generator writes its `ProblemConfig` JSON to `kangaroo-content/problems/<grade>/`, mirrors it to `kangaroo-renderer/public/problems/<grade>/`, and regenerates `problems/manifest.json` (also mirrored) so the frontend can discover every problem automatically — no React edits needed.
@@ -41,17 +48,10 @@ e.g. `MK_G1_2_2021_GearRatio` lives at `problems/MK_G1_2/MK_G1_2_2021_GearRatio.
 ### 2. Run the renderer (Node.js)
 
 ```bash
-c
 npm install
 npm run dev
 ```
 
-Open the URL shown in the terminal. Use the dropdown (grouped by grade band) to switch between:
-- **MK_G1_2_2021_GearRatio** — coupled rotation, play/pause, rotation counters
-- **MK_G1_2_2025_DropBall** — click columns, coin counter, collected ball history
-- **MK_G5_6_2020_Cube3x3x3** — 27-cube 3x3x3 structure, orbit camera, Explode/Assemble toggle to reveal hidden interior cubes
-- **MK_G5_6_2023_CubeNetFold** — 6-square cube net, drag the fold slider to fold it shut into a cube, orbit camera to check where each symbol ends up
-- **MK_G5_6_2023_AnimalJumpRace** — mouse/rabbit/kangaroo hop 1/2/3 spaces per turn around a 20-space circular track; click Jump one turn at a time to see who lands exactly on FINISH first
 
 ### 3. Production build
 
@@ -101,3 +101,37 @@ New problems are added by:
 ## Visual Design
 
 The DOM shell uses [MUI](https://mui.com/) (`src/theme.ts`) with a softened Material palette, pill buttons, and card-style panels. The 3D scene uses a single consistent material language (`meshStandardMaterial` via `geometries/materialProps.ts`) with drei's `Outlines` for a uniform "clean vector" outline on every mesh, `RoundedBox` for rounded frames, and soft shadows enabled on the `Canvas`.
+
+## Pipeline
+
+
+数学袋鼠竞赛原题
+   ↓ (人工阅读理解题意)
+kangaroo-content/generators/mk_xx_xxxx.py   ← Python 脚本手写
+   ↓ 用 Pydantic schema (schemas/entity.py, problem.py) 构造 ProblemConfig
+   ↓ 计算：齿轮传动比、坐标转换、初始状态 initial_state 等数学逻辑
+_registry.py::write_problem(config, grade)
+   ↓ 序列化为 JSON，同时写两份：
+   ├─ kangaroo-content/problems/<grade>/<id>.json      （源）
+   └─ kangaroo-renderer/public/problems/<grade>/<id>.json （镜像，给前端用）
+   ↓ 自动重建 manifest.json（题目索引，两边都更新）
+kangaroo-renderer (React + Vite 项目)
+   ↓ main.tsx 启动时 fetch manifest.json → 生成下拉菜单
+   ↓ 用户选题 → fetch 对应 JSON → SceneInterpreter 解析
+   ↓ EntityNode 按 geometry.kind 找 geometries/ 里的网格生成器
+   ↓ behaviors/ 里的 hook 负责动画/交互，读写 zustand store
+   ↓ ui/ 下的 MUI 组件（ControlBar/StatsPanel/…）同样订阅这个 store
+   ↓ npm run build → dist/
+   ↓ GitHub Actions (.github/workflows/deploy.yml) 自动跑生成器+构建+发布到 GitHub Pages
+
+##
+检查/关闭本地开发服务器
+# 方式1：看端口占用（Vite 默认 5173，如果被占用会自动换成 5174/5175...）
+Get-NetTCPConnection -LocalPort 5173 -ErrorAction SilentlyContinue
+# 方式2：直接看有没有 node 进程在跑 vite
+Get-Process node -ErrorAction SilentlyContinue
+
+# 找出占用 5173 端口的进程 PID
+Get-NetTCPConnection -LocalPort 5173 | Select-Object OwningProcess
+# 用 PID 结束进程（把 <PID> 换成上面查到的数字）
+Stop-Process -Id <PID> -Force

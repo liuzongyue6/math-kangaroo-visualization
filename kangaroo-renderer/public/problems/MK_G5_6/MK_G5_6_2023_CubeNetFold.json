@@ -67,7 +67,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.7,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -138,7 +139,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.7,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -224,7 +226,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.7,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -310,7 +313,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.7,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -396,7 +400,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.7,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -482,7 +487,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.7,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [

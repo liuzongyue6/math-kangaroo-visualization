@@ -7,7 +7,8 @@
     "on_white_collect_message": null,
     "controls": [
       "explode"
-    ]
+    ],
+    "params": []
   },
   "camera": {
     "mode": "perspective",
@@ -27,7 +28,8 @@
     "viewport_height": 460.0,
     "controls": "orbit",
     "min_polar_angle": null,
-    "max_polar_angle": null
+    "max_polar_angle": null,
+    "fold_center_shift": null
   },
   "scene": {
     "entities": [
@@ -47,7 +49,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -75,7 +78,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-0-0-1",
@@ -93,7 +97,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -121,7 +126,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-0-0-2",
@@ -139,7 +145,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -167,7 +174,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-0-1-0",
@@ -185,7 +193,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -213,7 +222,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-0-1-1",
@@ -231,7 +241,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -259,7 +270,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-0-1-2",
@@ -277,7 +289,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -305,7 +318,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-0-2-0",
@@ -323,7 +337,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -351,7 +366,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-0-2-1",
@@ -369,7 +385,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -397,7 +414,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-0-2-2",
@@ -415,7 +433,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -443,7 +462,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-1-0-0",
@@ -461,7 +481,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -489,7 +510,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-1-0-1",
@@ -507,7 +529,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -535,7 +558,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-1-0-2",
@@ -553,7 +577,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -581,7 +606,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-1-1-0",
@@ -599,7 +625,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -627,7 +654,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-1-1-1",
@@ -645,7 +673,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -673,7 +702,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-1-1-2",
@@ -691,7 +721,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -719,7 +750,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-1-2-0",
@@ -737,7 +769,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -765,7 +798,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-1-2-1",
@@ -783,7 +817,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -811,7 +846,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-1-2-2",
@@ -829,7 +865,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -857,7 +894,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-2-0-0",
@@ -875,7 +913,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -903,7 +942,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-2-0-1",
@@ -921,7 +961,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -949,7 +990,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-2-0-2",
@@ -967,7 +1009,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -995,7 +1038,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-2-1-0",
@@ -1013,7 +1057,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -1041,7 +1086,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-2-1-1",
@@ -1059,7 +1105,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -1087,7 +1134,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-2-1-2",
@@ -1105,7 +1153,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -1133,7 +1182,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-2-2-0",
@@ -1151,7 +1201,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -1179,7 +1230,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-2-2-1",
@@ -1197,7 +1249,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -1225,7 +1278,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       },
       {
         "id": "cube-2-2-2",
@@ -1243,7 +1297,8 @@
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
-          "wireframe": false
+          "wireframe": false,
+          "unlit": false
         },
         "transform": {
           "position": [
@@ -1271,7 +1326,8 @@
         ],
         "interactive": false,
         "group_id": null,
-        "label": null
+        "label": null,
+        "pattern": null
       }
     ],
     "paths": {},
