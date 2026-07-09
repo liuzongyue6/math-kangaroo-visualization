@@ -22,13 +22,12 @@ import '@fontsource/roboto/600.css';
 import '@fontsource/roboto/700.css';
 import { theme } from './theme';
 import { ProblemPlayer } from './player/ProblemPlayer';
-import { CoverScreen } from './ui/CoverScreen';
+import { HomeScreen } from './ui/home/HomeScreen';
 import { useProblemStore } from './stores/problemStore';
 import type { ProblemConfig, ProblemManifest, ProblemManifestEntry } from './types/problem';
 import './index.css';
 
 const DEFAULT_TITLE = 'Math Kangaroo Visualizations';
-const COVER_SEEN_KEY = 'mk_cover_seen';
 
 // Dev-only hook so automated checks (and manual console poking) can drive
 // the store directly: __problemStore.getState().setFoldAngle(90) etc.
@@ -49,14 +48,7 @@ function App() {
   const [selected, setSelected] = useState<string>('');
   const [config, setConfig] = useState<ProblemConfig | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [showCover, setShowCover] = useState<boolean>(
-    () => sessionStorage.getItem(COVER_SEEN_KEY) !== '1',
-  );
-
-  const dismissCover = () => {
-    sessionStorage.setItem(COVER_SEEN_KEY, '1');
-    setShowCover(false);
-  };
+  const [view, setView] = useState<'home' | 'app'>('home');
 
   // Browser tab title doubles as the problem's "final page name" — the
   // JSON filename (meta.id) already encodes grade + year, e.g.
@@ -80,6 +72,10 @@ function App() {
           (requested && data.problems.find((p) => p.id === requested)) || data.problems[0];
         if (initial) {
           setSelected(initial.id);
+        }
+        // A ?problem= deep link is an explicit intent to open the app directly.
+        if (requested && initial) {
+          setView('app');
         }
       })
       .catch((e: Error) => setError(e.message));
@@ -118,12 +114,29 @@ function App() {
     setSelected(event.target.value);
   };
 
+  if (view === 'home') {
+    return <HomeScreen onEnterKangaroo={() => setView('app')} />;
+  }
+
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {showCover && <CoverScreen onEnter={dismissCover} />}
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar sx={{ gap: 3, flexWrap: 'wrap', py: 1.5 }}>
-          <Typography variant="h6" component="div" sx={{ fontWeight: 700, color: 'text.primary' }}>
+          <Typography
+            component="button"
+            onClick={() => setView('home')}
+            variant="h6"
+            sx={{
+              fontWeight: 700,
+              color: 'text.primary',
+              bgcolor: 'transparent',
+              border: 'none',
+              p: 0,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+            aria-label="Back to MathZone home"
+          >
             🦘 Math Kangaroo Visualizations
           </Typography>
           <FormControl size="small" sx={{ minWidth: 260, ml: 'auto' }}>

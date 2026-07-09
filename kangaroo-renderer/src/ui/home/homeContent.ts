@@ -1,0 +1,112 @@
+/** Single source of truth for editable MathZone brand-page content. Update
+ * the values here (no component code changes needed) when real links,
+ * photos, or copy become available. */
+
+/** GitHub username used to build the About-Me avatar via
+ * https://github.com/<username>.png. */
+export const GITHUB_USERNAME = 'liuzongyue6';
+
+export const BRAND = {
+  name: 'MathZone',
+  tagline: '比答案更重要的是思考过程',
+  taglineEn: 'The thinking process matters more than the answer',
+};
+
+export type ProgramStatus = 'available' | 'coming-soon' | 'preview';
+
+export type ProgramCard = {
+  id: string;
+  icon: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  status: ProgramStatus;
+  /** Shown on 'available' | 'coming-soon' cards. Not used for 'preview'. */
+  ctaLabel?: string;
+  /** Shown inline on 'preview' cards as a compact QR strip. */
+  qrItems?: QrItem[];
+};
+
+/** The 3 program cards shown in the stack, in display order (always top
+ * to bottom, on every screen size).
+ *
+ * Math Kangaroo is the only fully wired up, clickable program, so it
+ * leads. Algebra 1 & 2 is a plain 'coming-soon' placeholder. AP Calculus
+ * has no page yet, but is highlighted with scan-to-preview QR codes
+ * ('preview' status) instead of a plain "Coming Soon" badge — swap in the
+ * real image paths/titles once you have them. */
+export const PROGRAM_CARDS: ProgramCard[] = [
+  {
+    id: 'kangaroo',
+    icon: '🦘',
+    title: 'Math Kangaroo Visualizations',
+    subtitle: '互动可视化 · Math Kangaroo题目',
+    description: '通过 3D 动画与互动操作，直观拆解Math Kangaroo，理解思考过程。',
+    status: 'available',
+    ctaLabel: '开始探索 · Explore',
+  },
+  {
+    id: 'algebra',
+    icon: '📐',
+    title: 'Algebra 1 & 2',
+    subtitle: '代数思维基础',
+    description: '系统梳理代数核心概念与解题方法，开课信息：即将上线',
+    status: 'coming-soon',
+    ctaLabel: 'Coming Soon',
+  },
+  {
+    id: 'ap-calculus',
+    icon: '∫',
+    title: 'AP Calculus',
+    subtitle: '微积分进阶',
+    description: '面向 AP 考试',
+    status: 'preview',
+    // qrItems: [
+    //   { id: 'ap-calc-preview-1', title: 'AP Calculus 精选视频 1', imageSrc: '/qrcodes/ap-calc-preview-1.png' },
+    //   { id: 'ap-calc-preview-2', title: 'AP Calculus 精选视频 2', imageSrc: '/qrcodes/ap-calc-preview-2.png' },
+    // ],
+  },
+];
+
+export type SocialLink = {
+  id: 'youtube' | 'xiaohongshu' | 'tiktok';
+  label: string;
+  /** '#' marks a placeholder that still needs a real URL. */
+  href: string;
+};
+
+export const SOCIAL_LINKS: SocialLink[] = [
+  { id: 'youtube', label: 'YouTube', href: 'https://www.youtube.com/@MathZoneUnlocked' },
+  { id: 'xiaohongshu', label: '小红书', href: 'https://xhslink.com/m/Xy3fZLytC1' },
+  {
+    id: 'tiktok',
+    label: 'TikTok',
+    href: 'https://www.tiktok.com/@mathzoneunlocked?_r=1&_t=ZP-97sXrtZTV1y',
+  },
+];
+
+export type QrItem = {
+  id: string;
+  title: string;
+  /** Path under public/, e.g. place the PNG at public/qrcodes/foo.png and
+   * reference it here as '/qrcodes/foo.png'. */
+  imageSrc: string;
+};
+
+/** Flexible, freely add/remove entries. Section is hidden automatically
+ * when this array is empty. Drop the referenced images into
+ * kangaroo-renderer/public/qrcodes/. */
+export const QR_ITEMS: QrItem[] = [
+  { id: 'mit-parent-tips', title: 'MIT 家长分享经验', imageSrc: '/qrcodes/AP5_experience_MIT.png' },
+  { id: '2026-prediction', title: '2026 AP 预测', imageSrc: '/qrcodes/2026_AP_Prediction.png' },
+];
+
+export const ABOUT_ME = {
+  bullets: [
+    '同济大学 + 佐治亚理工学院 双硕士',
+    '全球创新大赛多次获奖',
+    '多项技术论文、专利发表',
+    '长期从事高等数学教学与思维训练',
+    '注重解题逻辑与学习方法的培养',
+  ],
+};
