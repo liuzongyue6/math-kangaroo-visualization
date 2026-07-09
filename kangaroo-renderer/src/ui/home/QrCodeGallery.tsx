@@ -22,13 +22,25 @@ export function QrCodeGallery({ items, size = 160 }: QrCodeGalleryProps) {
       {items.map((item) => (
         <Box
           key={item.id}
+          component={item.href ? 'a' : 'div'}
+          href={item.href}
+          target={item.href ? '_blank' : undefined}
+          rel={item.href ? 'noreferrer' : undefined}
           sx={{
             width: size,
+            display: 'block',
             textAlign: 'center',
+            textDecoration: 'none',
+            color: 'inherit',
             bgcolor: 'background.paper',
             borderRadius: 3,
             p: 2,
             boxShadow: '0 4px 14px rgba(31, 36, 48, 0.08)',
+            cursor: item.href ? 'pointer' : 'default',
+            transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+            '&:hover': item.href
+              ? { transform: 'translateY(-2px)', boxShadow: '0 8px 20px rgba(31, 36, 48, 0.14)' }
+              : undefined,
           }}
         >
           <Box

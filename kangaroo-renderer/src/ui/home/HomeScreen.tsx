@@ -28,7 +28,7 @@ export function HomeScreen({ onEnterKangaroo }: HomeScreenProps) {
           <Divider sx={{ maxWidth: 1080, mx: 'auto' }} />
           <Box component="section" sx={{ maxWidth: 900, mx: 'auto', px: 3, py: { xs: 5, sm: 6 } }}>
             <Typography variant="h5" sx={{ fontWeight: 700, textAlign: 'center', mb: 3 }}>
-              精选内容 · 扫码查看
+              学生内容/授课内容精选 · 小红书二维码/链接查看
             </Typography>
             <QrCodeGallery items={QR_ITEMS} size={220} />
           </Box>

@@ -34,9 +34,6 @@ export function ProgramCard({ data, onSelect }: ProgramCardProps) {
           {isComingSoon && (
             <Chip label="Coming Soon" size="small" color="default" sx={{ fontWeight: 700 }} />
           )}
-          {isPreview && (
-            <Chip label="扫码预览" size="small" color="secondary" sx={{ fontWeight: 700 }} />
-          )}
         </Box>
 
         <Box>

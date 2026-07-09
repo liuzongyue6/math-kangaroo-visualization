@@ -81,7 +81,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     id: 'tiktok',
     label: 'TikTok',
-    href: 'https://www.tiktok.com/@mathzoneunlocked?_r=1&_t=ZP-97sXrtZTV1y',
+    href: 'https://www.tiktok.com/@mathzoneunlocked',
   },
 ];
 
@@ -91,19 +91,22 @@ export type QrItem = {
   /** Path under public/, e.g. place the PNG at public/qrcodes/foo.png and
    * reference it here as '/qrcodes/foo.png'. */
   imageSrc: string;
+  href?: string;
 };
 
 /** Flexible, freely add/remove entries. Section is hidden automatically
  * when this array is empty. Drop the referenced images into
  * kangaroo-renderer/public/qrcodes/. */
 export const QR_ITEMS: QrItem[] = [
-  { id: 'mit-parent-tips', title: 'MIT 家长分享经验', imageSrc: '/qrcodes/AP5_experience_MIT.png' },
-  { id: '2026-prediction', title: '2026 AP 预测', imageSrc: '/qrcodes/2026_AP_Prediction.png' },
+  { id: 'mit-parent-tips', title: '往期学生家长经验分享：MIT', imageSrc: '/qrcodes/AP5_experience_MIT.png', href: 'http://xhslink.com/o/5ncHSPWmF28' },
+  { id: '2026-ap-unit9', title: '2026 AP Calculus BC 专属考点 Unit 9', imageSrc: '/qrcodes/AP_Unit9.png', href: 'http://xhslink.com/o/1aCAOwjDSu3' },
+  { id: '2026-research-paper-for-kid', title: '研究生科研论文讲给小学生听', imageSrc: '/qrcodes/20260709_explain_paper_to_kid.png', href: 'http://xhslink.com/o/5B52HUY5ChQ' },
+  { id: '2026-ap-prediction', title: '2026 AP Calculus BC 预测：我猜对了吗？', imageSrc: '/qrcodes/2026_AP_Prediction.png', href: 'http://xhslink.com/o/5ncHSPWmF28' },
 ];
 
 export const ABOUT_ME = {
   bullets: [
-    '同济大学 + 佐治亚理工学院 双硕士',
+    '同济大学机械 + 佐治亚理工计算机 双硕士',
     '全球创新大赛多次获奖',
     '多项技术论文、专利发表',
     '长期从事高等数学教学与思维训练',
