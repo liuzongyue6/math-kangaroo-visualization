@@ -1,0 +1,16 @@
+{
+  "decks": [
+    {
+      "id": "mk-g1-2-mathkangaroo-g1-2-26-summer-10-classes",
+      "grade": "MK_G1_2",
+      "title": "MathKangaroo G1 2 26 Summer 10 Classes",
+      "fileSrc": "/slides/MK_G1_2/MathKangaroo_G1_2_26_Summer_10_Classes.pdf"
+    },
+    {
+      "id": "mk-g5-6-mathkangaroo-26-summer-g5-g6-10-classes",
+      "grade": "MK_G5_6",
+      "title": "MathKangaroo 26 Summer G5 G6 10 Classes",
+      "fileSrc": "/slides/MK_G5_6/MathKangaroo_26_Summer_G5_G6_10_Classes.pdf"
+    }
+  ]
+}

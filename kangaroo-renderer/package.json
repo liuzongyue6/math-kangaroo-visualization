@@ -4,8 +4,11 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/build-slides-manifest.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/build-slides-manifest.mjs",
     "build": "tsc -b && vite build",
+    "slides:manifest": "node scripts/build-slides-manifest.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

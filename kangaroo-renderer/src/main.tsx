@@ -11,6 +11,8 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Tab,
+  Tabs,
   Toolbar,
   Typography,
 } from '@mui/material';
@@ -23,6 +25,7 @@ import '@fontsource/roboto/700.css';
 import { theme } from './theme';
 import { ProblemPlayer } from './player/ProblemPlayer';
 import { HomeScreen } from './ui/home/HomeScreen';
+import { SlidesPage } from './ui/slides/SlidesPage';
 import { useProblemStore } from './stores/problemStore';
 import type { ProblemConfig, ProblemManifest, ProblemManifestEntry } from './types/problem';
 import './index.css';
@@ -49,6 +52,7 @@ function App() {
   const [config, setConfig] = useState<ProblemConfig | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [view, setView] = useState<'home' | 'app'>('home');
+  const [mode, setMode] = useState<'interactive' | 'slides'>('interactive');
 
   // Browser tab title doubles as the problem's "final page name" — the
   // JSON filename (meta.id) already encodes grade + year, e.g.
@@ -139,42 +143,61 @@ function App() {
           >
             🦘 Math Kangaroo Visualizations
           </Typography>
-          <FormControl size="small" sx={{ minWidth: 260, ml: 'auto' }}>
-            <InputLabel id="problem-select-label">Problem</InputLabel>
-            <Select
-              labelId="problem-select-label"
-              label="Problem"
-              value={selected}
-              onChange={handleChange}
-              disabled={!manifest || manifest.length === 0}
-            >
-              {grouped.map((group) => [
-                <MenuItem key={group.grade} disabled divider sx={{ opacity: 1, fontWeight: 700 }}>
-                  {formatGradeLabel(group.grade)}
-                </MenuItem>,
-                ...group.problems.map((p) => (
-                  <MenuItem key={p.id} value={p.id} sx={{ pl: 3 }}>
-                    {p.id}
-                  </MenuItem>
-                )),
-              ])}
-            </Select>
-          </FormControl>
+          <Tabs
+            value={mode}
+            onChange={(_e, value: 'interactive' | 'slides') => setMode(value)}
+            sx={{ minHeight: 0 }}
+          >
+            <Tab value="interactive" label="互动可视化" sx={{ minHeight: 0, py: 1 }} />
+            <Tab value="slides" label="上课课件" sx={{ minHeight: 0, py: 1 }} />
+          </Tabs>
+          {mode === 'interactive' && (
+            <FormControl size="small" sx={{ minWidth: 260, ml: 'auto' }}>
+              <InputLabel id="problem-select-label">Problem</InputLabel>
+              <Select
+                labelId="problem-select-label"
+                label="Problem"
+                value={selected}
+                onChange={handleChange}
+                disabled={!manifest || manifest.length === 0}
+              >
+                {grouped.map((group) => [
+                  <MenuItem key={group.grade} disabled divider sx={{ opacity: 1, fontWeight: 700 }}>
+                    {formatGradeLabel(group.grade)}
+                  </MenuItem>,
+                  ...group.problems.map((p) => (
+                    <MenuItem key={p.id} value={p.id} sx={{ pl: 3 }}>
+                      {p.id}
+                    </MenuItem>
+                  )),
+                ])}
+              </Select>
+            </FormControl>
+          )}
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="md" sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', pb: 6, pt: 2 }}>
-        {error && (
-          <Alert severity="error" sx={{ width: '100%', mt: 2 }}>
-            {error}
-          </Alert>
-        )}
-        {!error && config && <ProblemPlayer key={config.meta.id} config={config} />}
-        {!error && !config && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 8, color: 'text.secondary' }}>
-            <CircularProgress size={22} />
-            <Typography>Loading problem…</Typography>
-          </Box>
+      <Container
+        maxWidth={mode === 'slides' ? 'lg' : 'md'}
+        sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: mode === 'slides' ? 'stretch' : 'center', pb: 6, pt: 2 }}
+      >
+        {mode === 'slides' ? (
+          <SlidesPage />
+        ) : (
+          <>
+            {error && (
+              <Alert severity="error" sx={{ width: '100%', mt: 2 }}>
+                {error}
+              </Alert>
+            )}
+            {!error && config && <ProblemPlayer key={config.meta.id} config={config} />}
+            {!error && !config && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 8, color: 'text.secondary' }}>
+                <CircularProgress size={22} />
+                <Typography>Loading problem…</Typography>
+              </Box>
+            )}
+          </>
         )}
       </Container>
     </Box>
