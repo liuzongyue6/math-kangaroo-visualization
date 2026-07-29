@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red Light, Green Light — Substitute's Revenge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --chalkboard:#2C4A3E;
+    --chalkboard-dark:#1E332B;
+    --chalk-yellow:#F4D35E;
+    --chalk-yellow-dim: rgba(244,211,94,0.28);
+    --wood:#C9A671;
+    --wood-dark:#A9824F;
+    --cream:#F3E9D2;
+    --ink:#241C15;
+    --alert-red:#E4572E;
+    --pig-pink:#F2A6C1;
+    --pig-pink-dark:#D9749A;
+    --good-green:#6FCF97;
+    --wall:#E7DEC6;
+    --skin:#E8B98A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    background: radial-gradient(ellipse at 50% -10%, #3a5a4c 0%, #17251f 70%);
+    font-family:'Nunito',sans-serif;
+    color:var(--cream);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height:100vh;
+    padding:14px 10px 30px;
+  }
+  h1{
+    font-family:'Kalam',cursive;
+    font-size:clamp(22px,3.4vw,34px);
+    margin:6px 0 2px;
+    color:var(--chalk-yellow);
+    text-shadow: 0 2px 0 rgba(0,0,0,.35);
+    letter-spacing:.5px;
+    text-align:center;
+  }
+  .subtitle{
+    font-size:13px;
+    color:#c9d6cd;
+    margin-bottom:12px;
+    text-align:center;
+    max-width:520px;
+  }
+
+  .game-wrap{
+    position:relative;
+    width:100%;
+    max-width:920px;
+  }
+
+  /* ---------- HUD ---------- */
+  .hud{
+    display:flex;
+    justify-content:space-between;
+    align-items:stretch;
+    gap:10px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+  .stat{
+    background: var(--chalkboard-dark);
+    border:2px solid #4a6b5b;
+    border-radius:10px;
+    padding:8px 14px;
+    flex:1;
+    min-width:120px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .stat .label{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    color:#9fb6a9;
+    font-weight:800;
+  }
+  .stat .value{
+    font-family:'Kalam',cursive;
+    font-size:26px;
+    font-weight:700;
+    color:var(--chalk-yellow);
+    transition: color .15s, transform .15s;
+  }
+  .stat.flash-bad .value{ color:var(--alert-red); transform:scale(1.15); }
+  .stat.flash-good .value{ color:var(--good-green); transform:scale(1.15); }
+  .stat.flash-pig .value{ color:var(--pig-pink); transform:scale(1.15); }
+
+  /* ---------- Room ---------- */
+  .room{
+    position:relative;
+    width:100%;
+    aspect-ratio: 16 / 10.5;
+    background:
+      linear-gradient(var(--wall) 0%, var(--wall) 34%, var(--wood) 34%, var(--wood-dark) 100%);
+    border:6px solid var(--wood-dark);
+    border-radius:14px;
+    overflow:hidden;
+    cursor: crosshair;
+    box-shadow: inset 0 0 60px rgba(0,0,0,.35), 0 10px 30px rgba(0,0,0,.5);
+  }
+  .plank{
+    position:absolute; left:0; right:0; height:1px; background:rgba(0,0,0,.08);
+  }
+  .board{
+    position:absolute;
+    top:3%; left:50%;
+    transform:translateX(-50%);
+    width:34%;
+    height:15%;
+    background: var(--chalkboard);
+    border:6px solid #7a5230;
+    border-radius:4px;
+    box-shadow: inset 0 0 18px rgba(0,0,0,.5);
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Kalam',cursive;
+    color:#cfe6da;
+    font-size:12px;
+    opacity:.85;
+    text-align:center;
+    padding:4px;
+  }
+
+  svg.cone-layer{
+    position:absolute; inset:0; width:100%; height:100%;
+    pointer-events:none; z-index:5;
+  }
+  .cone-preview{ fill: var(--chalk-yellow-dim); }
+  .cone-lock{ fill: rgba(244,211,94,0.55); }
+  .cone-flash{ fill: rgba(255,255,255,0.75); }
+  .cone-ring{
+    fill:none; stroke: rgba(244,211,94,0.35); stroke-width:1.5; stroke-dasharray:4 6;
+  }
+
+  /* ---------- Teacher ---------- */
+  .teacher-stage{
+    position:absolute;
+    top:11%; left:50%;
+    transform:translate(-50%,-30%);
+    perspective:900px;
+    z-index:6;
+  }
+  .desk{
+    position:absolute;
+    top:58px; left:50%;
+    transform:translateX(-50%);
+    width:100px; height:24px;
+    background: var(--wood-dark);
+    border-radius:4px;
+    box-shadow:0 4px 0 rgba(0,0,0,.25);
+    z-index:-1;
+  }
+  .teacher{
+    position:relative;
+    width:76px; height:108px;
+    transform-style:preserve-3d;
+    transition: transform .5s ease-in-out;
+  }
+  .tface{
+    position:absolute; inset:0; backface-visibility:hidden;
+  }
+  .tface.front{ transform:rotateY(180deg); }
+  .t-head{ position:absolute; top:0; left:20px; width:36px; height:32px; border-radius:8px; background:#DDBB94; box-shadow: inset -6px -6px 0 rgba(0,0,0,.10);}
+  .t-hair-back{ position:absolute; top:-3px; left:16px; width:44px; height:20px; border-radius:10px 10px 4px 4px; background:#5b4636;}
+  .t-hair-front{ position:absolute; top:-3px; left:16px; width:44px; height:10px; border-radius:10px 10px 0 0; background:#5b4636;}
+  .t-glasses{ position:absolute; top:11px; left:25px; width:26px; height:8px; border:2px solid #333; border-radius:3px; background:rgba(255,255,255,.15);}
+  .t-eyes{ position:absolute; top:13px; left:29px; width:18px; height:4px; }
+  .t-eyes::before,.t-eyes::after{ content:''; position:absolute; top:0; width:4px;height:4px;border-radius:50%;background:#241C15;}
+  .t-eyes::before{left:0;} .t-eyes::after{right:0;}
+  .t-brow{ position:absolute; top:8px; left:26px; width:24px; height:3px; border-top:3px solid #3a2c1f; border-radius:3px; transform: rotate(-4deg);}
+  .t-mouth{ position:absolute; top:24px; left:29px; width:18px; height:4px; border-bottom:3px solid #7a3b2e; border-radius:0 0 40% 40%; transform: scaleY(1) rotate(180deg);}
+  .t-torso{ position:absolute; top:28px; left:12px; width:52px; height:46px; border-radius:8px 8px 4px 4px; background:#5B7BA6; box-shadow: inset -8px -6px 0 rgba(0,0,0,.12);}
+  .t-torso.back{ background:#3F567A; }
+  .t-arm{ position:absolute; top:32px; width:12px; height:38px; border-radius:6px; background:#4a6890;}
+  .t-arm.l{ left:2px; } .t-arm.r{ right:2px; }
+  .t-legs{ position:absolute; top:72px; left:16px; width:44px; height:34px; }
+  .t-legs::before,.t-legs::after{ content:''; position:absolute; top:0; width:18px; height:34px; border-radius:4px; background:#33302c;}
+  .t-legs::before{left:0;} .t-legs::after{right:0;}
+  .t-pointer{ position:absolute; top:38px; right:-14px; width:34px; height:4px; background:#8a5a30; border-radius:2px; transform:rotate(35deg); transform-origin: left center;}
+
+  /* ---------- Students ---------- */
+  .student{
+    position:absolute;
+    width:56px; height:82px;
+    transform: translate(-50%,-92%);
+    z-index:3;
+    transition: filter .25s, opacity .25s;
+  }
+  .desk-mini{
+    position:absolute; bottom:-6px; left:50%; transform:translateX(-50%);
+    width:50px; height:14px; background:var(--wood-dark); border-radius:3px;
+    box-shadow:0 3px 0 rgba(0,0,0,.2);
+  }
+  .s-head{ position:absolute; top:0; left:13px; width:30px; height:26px; border-radius:7px; box-shadow: inset -5px -4px 0 rgba(0,0,0,.12);}
+  .s-torso{ position:absolute; top:22px; left:8px; width:40px; height:32px; border-radius:6px; box-shadow: inset -5px -4px 0 rgba(0,0,0,.12);}
+  .s-legs{ position:absolute; top:52px; left:11px; width:34px; height:20px; }
+  .s-legs::before,.s-legs::after{ content:''; position:absolute; top:0; width:14px; height:20px; border-radius:3px; background:#33302c;}
+  .s-legs::before{left:0;} .s-legs::after{right:5px;}
+  .badge{
+    position:absolute; top:-24px; left:50%; transform:translateX(-50%);
+    font-size:22px; line-height:1;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,.4));
+    animation: bob 1.8s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{transform:translate(-50%,0);} 50%{transform:translate(-50%,-4px);} }
+
+  .student.pig .s-head, .student.pig .s-torso{ background: var(--pig-pink) !important; }
+  .student.pig .badge{ animation: bob .6s ease-in-out infinite; }
+  .student.busted{ opacity:.32; filter:grayscale(1) brightness(.8); }
+  .student.busted .badge{ animation:none; }
+
+  .feedback-float{
+    position:absolute; z-index:20; pointer-events:none;
+    font-family:'Kalam',cursive; font-weight:700; font-size:18px;
+    text-shadow: 0 2px 3px rgba(0,0,0,.6);
+    animation: floatUp 1s ease-out forwards;
+    white-space:nowrap;
+  }
+  @keyframes floatUp{
+    0%{ opacity:0; transform:translate(-50%,0) scale(.8);}
+    15%{ opacity:1; transform:translate(-50%,-6px) scale(1.05);}
+    100%{ opacity:0; transform:translate(-50%,-52px) scale(1);}
+  }
+
+  .pig-alert{
+    position:absolute; top:6px; left:50%; transform:translate(-50%,-140%);
+    background: var(--alert-red);
+    color:#fff; font-family:'Kalam',cursive; font-weight:700; font-size:16px;
+    padding:8px 18px; border-radius:20px; z-index:30;
+    box-shadow:0 6px 14px rgba(0,0,0,.4);
+    opacity:0; transition: transform .35s ease, opacity .35s ease;
+    white-space:nowrap;
+  }
+  .pig-alert.show{ transform:translate(-50%,10px); opacity:1; }
+
+  /* ---------- overlays ---------- */
+  .overlay{
+    position:absolute; inset:0; z-index:50;
+    background: rgba(15,22,18,.92);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; text-align:center; padding:24px;
+    border-radius:8px;
+  }
+  .overlay h2{
+    font-family:'Kalam',cursive; color:var(--chalk-yellow); font-size:30px; margin:0 0 8px;
+  }
+  .overlay p{ max-width:480px; font-size:14px; line-height:1.6; color:#dfe8e1; }
+  .overlay ul{ text-align:left; max-width:480px; font-size:13.5px; line-height:1.7; color:#dfe8e1; }
+  .btn{
+    margin-top:14px;
+    background: var(--chalk-yellow);
+    color:#241C15;
+    border:none;
+    font-family:'Kalam',cursive;
+    font-weight:700;
+    font-size:18px;
+    padding:10px 26px;
+    border-radius:30px;
+    cursor:pointer;
+    box-shadow:0 4px 0 #b08f2e;
+    transition: transform .1s;
+  }
+  .btn:active{ transform:translateY(3px); box-shadow:0 1px 0 #b08f2e; }
+  .hidden{ display:none !important; }
+  footer{
+    margin-top:14px;
+    font-size:12px;
+    color:#7d9186;
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+
+<h1>🍎 Red Light, Green Light — Substitute's Revenge</h1>
+<div class="subtitle">You're the teacher. Your back is turned. Aim with your mouse, click to spin around, and catch the class in the act — before your turns or time run out.</div>
+
+<div class="game-wrap">
+
+  <div class="hud">
+    <div class="stat" id="statTurns"><div class="label">Turns Left</div><div class="value" id="valTurns">18</div></div>
+    <div class="stat" id="statTime"><div class="label">Time</div><div class="value" id="valTime">60</div></div>
+    <div class="stat" id="statBusted"><div class="label">Busted</div><div class="value" id="valBusted">0 / 12</div></div>
+  </div>
+
+  <div class="room" id="room">
+    <div class="board">📋 Do not turn your back on 3rd period.</div>
+
+    <div class="pig-alert" id="pigAlert">🐷 PIG ALERT!</div>
+
+    <svg class="cone-layer" id="coneSvg">
+      <circle class="cone-ring" id="ringPreview" r="0" cx="0" cy="0"></circle>
+      <path id="conePath" d=""></path>
+    </svg>
+
+    <div class="teacher-stage">
+      <div class="desk"></div>
+      <div class="teacher" id="teacher">
+        <div class="tface back">
+          <div class="t-hair-back"></div>
+          <div class="t-head"></div>
+          <div class="t-torso back"></div>
+          <div class="t-arm l"></div>
+          <div class="t-arm r"></div>
+          <div class="t-legs"></div>
+        </div>
+        <div class="tface front">
+          <div class="t-head"></div>
+          <div class="t-hair-front"></div>
+          <div class="t-glasses"></div>
+          <div class="t-eyes"></div>
+          <div class="t-brow"></div>
+          <div class="t-mouth"></div>
+          <div class="t-torso"></div>
+          <div class="t-pointer"></div>
+          <div class="t-arm l"></div>
+          <div class="t-arm r"></div>
+          <div class="t-legs"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="studentsLayer"></div>
+
+    <div class="overlay" id="startOverlay">
+      <h2>Welcome to 3rd Period</h2>
+      <ul>
+        <li>Move your mouse over the room to aim — the faint beam shows where you'll look.</li>
+        <li>Click to spin around. There's a short wind-up, so time it.</li>
+        <li>Naughty students 🗣️🍔💃🐹 and pigs 🐷 caught in your beam get busted instantly.</li>
+        <li>Catch an innocent 🙂 by mistake and you'll lose time. Turn around and catch no one — a whiff — and you'll lose even more.</li>
+        <li>Busting a pig earns you bonus time. Ignore the outbreak and it spreads down the row.</li>
+        <li>Bust all 12 before your turns or time hit zero!</li>
+      </ul>
+      <button class="btn" id="startBtn">Start Class ▶</button>
+    </div>
+
+    <div class="overlay hidden" id="endOverlay">
+      <h2 id="endTitle">Class Dismissed</h2>
+      <p id="endText"></p>
+      <button class="btn" id="restartBtn">Try Again</button>
+    </div>
+  </div>
+</div>
+
+<footer>Tip: a wider net catches more, but good kids sit close to naughty ones too.</footer>
+
+<script>
+(function(){
+  const FOV_HALF = 27;
+  const AIM_MIN = 8, AIM_MAX = 172;
+  const WINDUP_MS = 550;
+  const CHECK_FLASH_MS = 220;
+  const COOLDOWN_MS = 950;
+  const START_TIME = 60;
+  const START_TURNS = 18;
+  const WHIFF_PENALTY = 4;
+  const GOOD_PENALTY = 3;
+  const PIG_BONUS = 5;
+
+  const SEATS = [
+    {x:18,y:30},{x:15,y:45},{x:15,y:60},{x:18,y:75},   // left column, top->bottom
+    {x:30,y:87},{x:43,y:91},{x:57,y:91},{x:70,y:87},   // bottom row, left->right
+    {x:82,y:75},{x:85,y:60},{x:85,y:45},{x:82,y:30}    // right column, bottom->top
+  ];
+  const SHIRTS = ['#E4572E','#3D8361','#3B6EA5','#C9A34E','#8E5572','#4E9F3D','#B85042','#5B7BA6','#D98E4A','#7A6F9B','#3D8361','#C9A34E'];
+  const NAUGHTY_KINDS = [
+    {icon:'🗣️'},{icon:'🍔'},{icon:'💃'},{icon:'🐹'}
+  ];
+
+  const room = document.getElementById('room');
+  const studentsLayer = document.getElementById('studentsLayer');
+  const teacherEl = document.getElementById('teacher');
+  const coneSvg = document.getElementById('coneSvg');
+  const conePath = document.getElementById('conePath');
+  const pigAlertEl = document.getElementById('pigAlert');
+  const startOverlay = document.getElementById('startOverlay');
+  const endOverlay = document.getElementById('endOverlay');
+  const endTitle = document.getElementById('endTitle');
+  const endText = document.getElementById('endText');
+  const valTurns = document.getElementById('valTurns');
+  const valTime = document.getElementById('valTime');
+  const valBusted = document.getElementById('valBusted');
+  const statTurns = document.getElementById('statTurns');
+  const statTime = document.getElementById('statTime');
+  const statBusted = document.getElementById('statBusted');
+
+  let students = [];
+  let phase = 'idle'; // idle | aiming | windup | checking | cooldown | ended
+  let turnsLeft, timeLeft, bustedCount, aimAngle, lockedAngle, rangePx;
+  let teacherRot = 0;
+  let timerInterval = null;
+  let pigTimeoutId = null, spreadTimeoutId = null;
+  let gameEnded = false;
+
+  function rand(min,max){ return Math.random()*(max-min)+min; }
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  function teacherAnchor(rect){ return {x: rect.width*0.5, y: rect.height*0.145}; }
+
+  function computeRange(rect){
+    const t = teacherAnchor(rect);
+    let maxD = 0;
+    SEATS.forEach(s=>{
+      const p = {x: rect.width*s.x/100, y: rect.height*s.y/100};
+      const d = Math.hypot(p.x-t.x, p.y-t.y);
+      if(d>maxD) maxD = d;
+    });
+    return maxD + 55;
+  }
+
+  function buildStudents(){
+    studentsLayer.innerHTML = '';
+    students = SEATS.map((seat, i)=>{
+      const el = document.createElement('div');
+      el.className = 'student';
+      el.style.left = seat.x + '%';
+      el.style.top = seat.y + '%';
+      const shirt = SHIRTS[i % SHIRTS.length];
+      el.innerHTML = `
+        <div class="badge">🙂</div>
+        <div class="s-head" style="background:var(--skin)"></div>
+        <div class="s-torso" style="background:${shirt}"></div>
+        <div class="s-legs"></div>
+        <div class="desk-mini"></div>
+      `;
+      studentsLayer.appendChild(el);
+      return {
+        id: i, el, seat,
+        status: 'good', // good | naughty | pig
+        naughtyIcon: '🙂',
+        busted: false,
+        toggleTimer: null
+      };
+    });
+  }
+
+  function renderStudent(s){
+    s.el.classList.toggle('pig', s.status === 'pig');
+    s.el.classList.toggle('busted', s.busted);
+    const badge = s.el.querySelector('.badge');
+    if(s.status === 'pig') badge.textContent = '🐷';
+    else if(s.status === 'naughty') badge.textContent = s.naughtyIcon;
+    else badge.textContent = '🙂';
+  }
+
+  function scheduleToggle(s){
+    const delay = rand(1500, 2200);
+    s.toggleTimer = setTimeout(()=>{
+      if(gameEnded || s.busted || s.status === 'pig') return;
+      if(s.status === 'good'){
+        s.status = 'naughty';
+        s.naughtyIcon = pick(NAUGHTY_KINDS).icon;
+      } else {
+        s.status = 'good';
+      }
+      renderStudent(s);
+      scheduleToggle(s);
+    }, delay);
+  }
+
+  function scheduleFirstPig(){
+    pigTimeoutId = setTimeout(()=>{
+      if(gameEnded) return;
+      infectRandomSeat();
+      scheduleSpread();
+    }, rand(5000, 9000));
+  }
+
+  function infectRandomSeat(){
+    const candidates = students.filter(s=>!s.busted && s.status !== 'pig');
+    if(!candidates.length) return;
+    const s = pick(candidates);
+    if(s.toggleTimer) clearTimeout(s.toggleTimer);
+    s.status = 'pig';
+    renderStudent(s);
+    showPigAlert();
+    checkAllPigLose();
+  }
+
+  function scheduleSpread(){
+    spreadTimeoutId = setTimeout(()=>{
+      if(gameEnded) return;
+      const pigs = students.filter(s=>s.status === 'pig' && !s.busted);
+      if(!pigs.length){
+        scheduleFirstPig();
+        return;
+      }
+      const p = pick(pigs);
+      const neighborIdx = [p.id - 1, p.id + 1].filter(i=>i>=0 && i<12);
+      const neighbors = neighborIdx.map(i=>students[i]).filter(s=>s && !s.busted && s.status !== 'pig');
+      if(neighbors.length){
+        const target = pick(neighbors);
+        if(target.toggleTimer) clearTimeout(target.toggleTimer);
+        target.status = 'pig';
+        renderStudent(target);
+        showPigAlert();
+        checkAllPigLose();
+      }
+      scheduleSpread();
+    }, rand(3200, 5000));
+  }
+
+  function checkAllPigLose(){
+    const active = students.filter(s=>!s.busted);
+    if(active.length > 0 && active.every(s=>s.status === 'pig')){
+      endGame(false, 'pigs');
+    }
+  }
+
+  function showPigAlert(){
+    pigAlertEl.classList.add('show');
+    clearTimeout(showPigAlert._t);
+    showPigAlert._t = setTimeout(()=> pigAlertEl.classList.remove('show'), 1600);
+  }
+
+  function updateHUD(){
+    valTurns.textContent = turnsLeft;
+    valTime.textContent = Math.max(0, Math.ceil(timeLeft));
+    valBusted.textContent = bustedCount + ' / 12';
+  }
+
+  function flashStat(el, cls){
+    el.classList.add(cls);
+    setTimeout(()=>el.classList.remove(cls), 400);
+  }
+
+  function floatText(text, color, xPct, yPct){
+    const f = document.createElement('div');
+    f.className = 'feedback-float';
+    f.textContent = text;
+    f.style.left = xPct + '%';
+    f.style.top = yPct + '%';
+    f.style.color = color;
+    room.appendChild(f);
+    setTimeout(()=>f.remove(), 1000);
+  }
+
+  // ---------- cone drawing ----------
+  function coneAngleFromEvent(clientX, clientY){
+    const rect = room.getBoundingClientRect();
+    const t = teacherAnchor(rect);
+    const mx = clientX - rect.left, my = clientY - rect.top;
+    let ang = Math.atan2(my - t.y, mx - t.x) * 180 / Math.PI;
+    if(ang < AIM_MIN) ang = AIM_MIN;
+    if(ang > AIM_MAX) ang = AIM_MAX;
+    return ang;
+  }
+
+  function drawCone(angleDeg, cls){
+    const rect = room.getBoundingClientRect();
+    const t = teacherAnchor(rect);
+    const R = rangePx;
+    const a1 = (angleDeg - FOV_HALF) * Math.PI/180;
+    const a2 = (angleDeg + FOV_HALF) * Math.PI/180;
+    const x1 = t.x + R*Math.cos(a1), y1 = t.y + R*Math.sin(a1);
+    const x2 = t.x + R*Math.cos(a2), y2 = t.y + R*Math.sin(a2);
+    const d = `M ${t.x} ${t.y} L ${x1} ${y1} A ${R} ${R} 0 0 1 ${x2} ${y2} Z`;
+    conePath.setAttribute('d', d);
+    conePath.setAttribute('class', cls);
+  }
+
+  function hideCone(){
+    conePath.setAttribute('d', '');
+  }
+
+  // ---------- game flow ----------
+  function onMouseMove(e){
+    if(phase !== 'aiming') return;
+    aimAngle = coneAngleFromEvent(e.clientX, e.clientY);
+    drawCone(aimAngle, 'cone-preview');
+  }
+
+  function onClick(e){
+    if(phase !== 'aiming' || gameEnded) return;
+    if(turnsLeft <= 0) return;
+    lockedAngle = aimAngle !== undefined ? aimAngle : coneAngleFromEvent(e.clientX, e.clientY);
+    turnsLeft--;
+    updateHUD();
+    phase = 'windup';
+    drawCone(lockedAngle, 'cone-lock');
+    teacherRot = 180;
+    teacherEl.style.transitionDuration = WINDUP_MS + 'ms';
+    teacherEl.style.transform = `rotateY(${teacherRot}deg)`;
+
+    setTimeout(()=> resolveCheck(), WINDUP_MS);
+  }
+
+  function angleDiff(a, b){
+    let d = Math.abs(a - b);
+    return d;
+  }
+
+  function resolveCheck(){
+    if(gameEnded) return;
+    phase = 'checking';
+    drawCone(lockedAngle, 'cone-flash');
+    const rect = room.getBoundingClientRect();
+    const t = teacherAnchor(rect);
+
+    const caught = students.filter(s=>{
+      if(s.busted) return false;
+      const p = {x: rect.width*s.seat.x/100, y: rect.height*s.seat.y/100};
+      const dist = Math.hypot(p.x - t.x, p.y - t.y);
+      if(dist > rangePx) return false;
+      const angTo = Math.atan2(p.y - t.y, p.x - t.x) * 180/Math.PI;
+      return angleDiff(angTo, lockedAngle) <= FOV_HALF;
+    });
+
+    if(caught.length === 0){
+      timeLeft = Math.max(0, timeLeft - WHIFF_PENALTY);
+      floatText('Whiff! -' + WHIFF_PENALTY + 's', '#E4572E', 50, 45);
+      flashStat(statTime, 'flash-bad');
+    } else {
+      caught.forEach(s=>{
+        const px = s.seat.x, py = s.seat.y;
+        if(s.status === 'naughty'){
+          bustStudent(s);
+          floatText('Busted! 🎯', '#F4D35E', px, py - 6);
+        } else if(s.status === 'pig'){
+          bustStudent(s);
+          timeLeft += PIG_BONUS;
+          floatText('Pig busted! +' + PIG_BONUS + 's', '#F2A6C1', px, py - 6);
+          flashStat(statTime, 'flash-pig');
+        } else if(s.status === 'good'){
+          timeLeft = Math.max(0, timeLeft - GOOD_PENALTY);
+          floatText('Innocent! -' + GOOD_PENALTY + 's', '#E4572E', px, py - 6);
+          flashStat(statTime, 'flash-bad');
+        }
+      });
+    }
+    updateHUD();
+
+    if(bustedCount >= 12){
+      endGame(true);
+      return;
+    }
+
+    setTimeout(()=>{
+      if(gameEnded) return;
+      phase = 'cooldown';
+      hideCone();
+      teacherRot = 360;
+      teacherEl.style.transitionDuration = COOLDOWN_MS + 'ms';
+      teacherEl.style.transform = `rotateY(${teacherRot}deg)`;
+      setTimeout(()=>{
+        if(gameEnded) return;
+        teacherEl.style.transitionDuration = '0ms';
+        teacherRot = 0;
+        teacherEl.style.transform = `rotateY(0deg)`;
+        phase = 'aiming';
+        if(turnsLeft <= 0 && bustedCount < 12){
+          endGame(false, 'turns');
+        }
+      }, COOLDOWN_MS);
+    }, CHECK_FLASH_MS);
+  }
+
+  function bustStudent(s){
+    s.busted = true;
+    if(s.toggleTimer) clearTimeout(s.toggleTimer);
+    renderStudent(s);
+    bustedCount++;
+    updateHUD();
+    flashStat(statBusted, 'flash-good');
+  }
+
+  function tickTimer(){
+    if(gameEnded) return;
+    timeLeft -= 1;
+    if(timeLeft <= 0){
+      timeLeft = 0;
+      updateHUD();
+      endGame(false, 'time');
+      return;
+    }
+    updateHUD();
+  }
+
+  function endGame(won, reason){
+    if(gameEnded) return;
+    gameEnded = true;
+    phase = 'ended';
+    clearInterval(timerInterval);
+    clearTimeout(pigTimeoutId);
+    clearTimeout(spreadTimeoutId);
+    students.forEach(s=>{ if(s.toggleTimer) clearTimeout(s.toggleTimer); });
+    hideCone();
+
+    if(won){
+      endTitle.textContent = '🎉 Class Busted — You Win!';
+      endText.textContent = `You caught all 12 students with ${turnsLeft} turns and ${Math.ceil(timeLeft)}s to spare. The board never stood a chance.`;
+    } else {
+      let msg = '';
+      if(reason === 'time') msg = 'The bell rang before you finished checking the room.';
+      else if(reason === 'turns') msg = 'You ran out of turns with kids still misbehaving.';
+      else if(reason === 'pigs') msg = 'The pig outbreak spread through the entire class before you could stop it.';
+      endTitle.textContent = '🔔 Class Dismissed';
+      endText.textContent = `${msg} You busted ${bustedCount} of 12.`;
+    }
+    endOverlay.classList.remove('hidden');
+  }
+
+  function startGame(){
+    gameEnded = false;
+    phase = 'aiming';
+    turnsLeft = START_TURNS;
+    timeLeft = START_TIME;
+    bustedCount = 0;
+    aimAngle = 90;
+    lockedAngle = 90;
+    teacherRot = 0;
+    teacherEl.style.transitionDuration = '0ms';
+    teacherEl.style.transform = 'rotateY(0deg)';
+    updateHUD();
+    startOverlay.classList.add('hidden');
+    endOverlay.classList.add('hidden');
+    pigAlertEl.classList.remove('show');
+
+    buildStudents();
+    const rect = room.getBoundingClientRect();
+    rangePx = computeRange(rect);
+    students.forEach(s=> scheduleToggle(s));
+
+    scheduleFirstPig();
+
+    clearInterval(timerInterval);
+    timerInterval = setInterval(tickTimer, 1000);
+  }
+
+  window.addEventListener('resize', ()=>{
+    const rect = room.getBoundingClientRect();
+    rangePx = computeRange(rect);
+  });
+
+  room.addEventListener('mousemove', onMouseMove);
+  room.addEventListener('click', onClick);
+  document.getElementById('startBtn').addEventListener('click', startGame);
+  document.getElementById('restartBtn').addEventListener('click', startGame);
+
+})();
+</script>
+</body>
+</html>

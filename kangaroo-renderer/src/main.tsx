@@ -25,12 +25,15 @@ import '@fontsource/roboto/700.css';
 import { theme } from './theme';
 import { ProblemPlayer } from './player/ProblemPlayer';
 import { HomeScreen } from './ui/home/HomeScreen';
+import { GamesPage } from './ui/games/GamesPage';
 import { SlidesPage } from './ui/slides/SlidesPage';
 import { useProblemStore } from './stores/problemStore';
 import type { ProblemConfig, ProblemManifest, ProblemManifestEntry } from './types/problem';
 import './index.css';
 
 const DEFAULT_TITLE = 'Math Kangaroo Visualizations';
+
+type AppMode = 'interactive' | 'slides' | 'games';
 
 // Dev-only hook so automated checks (and manual console poking) can drive
 // the store directly: __problemStore.getState().setFoldAngle(90) etc.
@@ -52,7 +55,7 @@ function App() {
   const [config, setConfig] = useState<ProblemConfig | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [view, setView] = useState<'home' | 'app'>('home');
-  const [mode, setMode] = useState<'interactive' | 'slides'>('interactive');
+  const [mode, setMode] = useState<AppMode>('interactive');
 
   // Browser tab title doubles as the problem's "final page name" — the
   // JSON filename (meta.id) already encodes grade + year, e.g.
@@ -145,11 +148,12 @@ function App() {
           </Typography>
           <Tabs
             value={mode}
-            onChange={(_e, value: 'interactive' | 'slides') => setMode(value)}
+            onChange={(_e, value: AppMode) => setMode(value)}
             sx={{ minHeight: 0 }}
           >
             <Tab value="interactive" label="互动可视化" sx={{ minHeight: 0, py: 1 }} />
             <Tab value="slides" label="上课课件" sx={{ minHeight: 0, py: 1 }} />
+            <Tab value="games" label="小游戏" sx={{ minHeight: 0, py: 1 }} />
           </Tabs>
           {mode === 'interactive' && (
             <FormControl size="small" sx={{ minWidth: 260, ml: 'auto' }}>
@@ -178,11 +182,20 @@ function App() {
       </AppBar>
 
       <Container
-        maxWidth={mode === 'slides' ? 'lg' : 'md'}
-        sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: mode === 'slides' ? 'stretch' : 'center', pb: 6, pt: 2 }}
+        maxWidth={mode === 'slides' || mode === 'games' ? 'lg' : 'md'}
+        sx={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: mode === 'interactive' ? 'center' : 'stretch',
+          pb: 6,
+          pt: 2,
+        }}
       >
         {mode === 'slides' ? (
           <SlidesPage />
+        ) : mode === 'games' ? (
+          <GamesPage />
         ) : (
           <>
             {error && (
