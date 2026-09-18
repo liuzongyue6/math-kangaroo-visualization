@@ -29,6 +29,8 @@
     "controls": "orbit",
     "min_polar_angle": null,
     "max_polar_angle": null,
+    "min_azimuth_angle": null,
+    "max_azimuth_angle": null,
     "fold_center_shift": null
   },
   "scene": {
@@ -73,7 +75,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -121,7 +124,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -169,7 +173,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -217,7 +222,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -265,7 +271,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -313,7 +320,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -361,7 +369,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -409,7 +418,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -457,7 +467,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -505,7 +516,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -553,7 +565,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -601,7 +614,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -649,7 +663,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -697,7 +712,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -745,7 +761,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -793,7 +810,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -841,7 +859,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -889,7 +908,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -937,7 +957,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -985,7 +1006,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -1033,7 +1055,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -1081,7 +1104,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -1129,7 +1153,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -1177,7 +1202,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -1225,7 +1251,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -1273,7 +1300,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,
@@ -1321,7 +1349,8 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06
+            "speed": 0.06,
+            "offset": null
           }
         ],
         "interactive": false,

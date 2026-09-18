@@ -43,10 +43,16 @@ class CameraConfig(BaseModel):
     viewport_height: float = 400
     # "locked": no user camera control (clean diagram look)
     # "orbit": free OrbitControls
-    # "limited": OrbitControls constrained to min/max_polar_angle
+    # "limited": OrbitControls constrained to min/max_polar_angle (and, if
+    # set, min/max_azimuth_angle)
     controls: Literal["locked", "orbit", "limited"] = "locked"
     min_polar_angle: float | None = None
     max_polar_angle: float | None = None
+    # Horizontal orbit range in radians (0 = camera on +z, positive = from
+    # the right). Useful for wide side-by-side layouts that would line up
+    # behind each other if the user could spin all the way around.
+    min_azimuth_angle: float | None = None
+    max_azimuth_angle: float | None = None
     # For hinge-fold scenes: world-space offset of the folded solid's center
     # at foldAngle = +90 deg. The renderer counter-shifts the scene linearly
     # with the fold angle (group position = -(foldAngle/90) * shift) so the

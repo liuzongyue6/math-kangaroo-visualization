@@ -79,6 +79,7 @@ e.g. `MK_G1_2_2021_GearRatio`. This id string is used consistently as: the gener
 | Nets / tangram / area / custom flat shapes | `polygon` (2D point list) | — | — |
 | Net folding (flat net → 3D solid, cube/box nets) | `polygon` | `hinge_fold` | `none` |
 | Coin stacks / pulleys / clock body | `cylinder` | — | — |
+| Cube structures to take apart (one solid, or pieces of several side-by-side figures) | `box` | `explode` (radial `target_factor`, or per-piece `offset`) | `none` |
 
 **Coordinate rule:** HTML canvas (top-left origin) → scene coords:
 `x' = x - viewport_width/2`, `y' = viewport_height/2 - y`
@@ -87,7 +88,7 @@ e.g. `MK_G1_2_2021_GearRatio`. This id string is used consistently as: the gener
 
 **Camera:** pick `camera.controls`:
 - Use `locked` (default) for problems that are conceptually 2D/flat — keeps the "clean diagram" look, no accidental tilting.
-- Use `limited` with `min_polar_angle`/`max_polar_angle` for problems that benefit from a *little* 3D depth without letting users spin it randomly.
+- Use `limited` with `min_polar_angle`/`max_polar_angle` for problems that benefit from a *little* 3D depth without letting users spin it randomly. Add `min_azimuth_angle`/`max_azimuth_angle` when several figures sit side by side, so the row can't be turned edge-on.
 - Use `orbit` only when free 3D exploration is actually part of the problem.
 
 ## Extending the Framework
@@ -111,6 +112,7 @@ Do NOT create per-problem React scene components.
 | Gear example generator | `kangaroo-content/generators/mk_g1_2_2021_gear_ratio.py` |
 | Drop balls generator | `kangaroo-content/generators/mk_g1_2_2025_drop_ball.py` |
 | Cube explode generator | `kangaroo-content/generators/mk_g5_6_2020_cube3x3x3.py` |
+| Multi-figure take-apart generator (`explode.offset`) | `kangaroo-content/generators/mk_g1_2_2025_2_blocks.py` |
 | Cube net folding generator | `kangaroo-content/generators/mk_g5_6_2023_cube_net_fold.py` |
 | Animal jump race generator | `kangaroo-content/generators/mk_g5_6_2023_animal_jump_race.py` |
 | Problem discovery (manifest-driven) | `kangaroo-renderer/src/main.tsx` |

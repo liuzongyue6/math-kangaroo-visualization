@@ -40,6 +40,8 @@
     "controls": "locked",
     "min_polar_angle": null,
     "max_polar_angle": null,
+    "min_azimuth_angle": null,
+    "max_azimuth_angle": null,
     "fold_center_shift": null
   },
   "scene": {

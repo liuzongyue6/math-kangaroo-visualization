@@ -217,7 +217,7 @@ export function EntityNode({ entity, entities, paths, meta }: EntityNodeProps) {
           distanceFactor={entity.label.follow_rotation ? FOLLOW_ROTATION_DISTANCE_FACTOR : undefined}
           center
         >
-          <span style={LABEL_VARIANT_STYLE[entity.label.variant]}>
+          <span style={{ whiteSpace: 'nowrap', ...LABEL_VARIANT_STYLE[entity.label.variant] }}>
             {entity.label.text}
           </span>
         </Html>

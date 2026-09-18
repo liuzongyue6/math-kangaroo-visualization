@@ -148,11 +148,17 @@ class ExplodeBehavior(BaseModel):
     """Radially offsets an entity away from the scene origin, driven by the
     global `isExploded` toggle (see ProblemMeta.controls `"explode"`).
     Entity's own `transform.position` is treated as the assembled position;
-    the exploded position is that vector scaled by `target_factor`."""
+    the exploded position is that vector scaled by `target_factor`.
+
+    Set `offset` instead to translate the entity by that fixed world-space
+    vector (assembled position + offset), ignoring `target_factor` — needed
+    when several objects sit side by side and each piece should slide out
+    in its own direction rather than fly away from the scene origin."""
 
     kind: Literal["explode"] = "explode"
     target_factor: float = 2.2
     speed: float = 0.05
+    offset: tuple[float, float, float] | None = None
 
 
 class HingeJoint(BaseModel):

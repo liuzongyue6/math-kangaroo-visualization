@@ -83,7 +83,7 @@ New problems are added by:
 - `click_collect` — click-to-remove-and-tally (drop balls, grid counting)
 - `stack_fall` — declared independently from `click_collect` so "falls into a column" physics can be mixed freely with any collection UX
 - `path_follow` — move along a named path from `SceneConfig.paths` (mazes, number lines), auto-start or click-triggered
-- `explode` — radially offsets an entity from the origin (its `transform.position` scaled by `target_factor`), driven by the global `isExploded` toggle; pair with `meta.controls: ["explode"]` for an Explode/Assemble button (3D structure/cube-count problems)
+- `explode` — radially offsets an entity from the origin (its `transform.position` scaled by `target_factor`), driven by the global `isExploded` toggle; pair with `meta.controls: ["explode"]` for an Explode/Assemble button (3D structure/cube-count problems). Set `offset` instead to slide the entity by a fixed vector — for several figures side by side whose pieces each come apart in their own direction (e.g. `MK_G1_2_2025_2Blocks`)
 - `hinge_fold` — animates a flat net folding into a 3D solid (cube/box nets). Each entity carries a root-first `chain` of `HingeJoint`s (pivot + axis + sign); every joint rotates by the same global `foldAngle`, so multi-hinge flaps compose correctly with no entity parent/child tree required. Pair with `meta.controls: ["fold"]` for a fold-angle slider (-90°..90°)
 - `circular_jump` — discrete, turn-based hop around a shared circular node layout (racing/track problems). Every racer entity declares the same `num_nodes`/`center`/`radius` plus its own `step` size and `lane_offset`; clicking Jump (`meta.controls: ["step"]`) advances the shared `turnCount`, and each racer hops `step` nodes with a parabolic arc, freezing once it lands exactly on `finish_node`
 
@@ -95,7 +95,7 @@ New problems are added by:
 
 **Camera:** `orthographic` (2D) or `perspective` (3D). `camera.controls` picks the interaction model:
 - `locked` (default) — no OrbitControls, camera is fixed at the authored angle for a clean "diagram" look
-- `limited` — OrbitControls constrained between `min_polar_angle`/`max_polar_angle`
+- `limited` — OrbitControls constrained between `min_polar_angle`/`max_polar_angle` (and optionally `min_azimuth_angle`/`max_azimuth_angle`, so a wide row of figures can't be turned edge-on)
 - `orbit` — fully free OrbitControls
 
 ## Visual Design

@@ -19,6 +19,15 @@
       "path": "problems/MK_G1_2/MK_G1_2_2021_GearRatio.json"
     },
     {
+      "id": "MK_G1_2_2025_2Blocks",
+      "title": "Which object cannot be built with Mike's 2 blocks?",
+      "description": "Top: Mike's blocks, a 3-cube L (blue) and a 2-cube bar (orange). A-D are colored to show how the two blocks fit together; press Explode to pull them apart. E can't be split: its red center cube touches 4 cubes that touch nothing else, so all 5 cubes would have to be one block. Drag to tilt the view and find the hidden cubes.",
+      "grade": "MK_G1_2",
+      "year": "2025",
+      "stats_type": "none",
+      "path": "problems/MK_G1_2/MK_G1_2_2025_2Blocks.json"
+    },
+    {
       "id": "MK_G1_2_2025_DropBall",
       "title": "Click Any Column",
       "description": "Drop balls from any column. Collect them below!",

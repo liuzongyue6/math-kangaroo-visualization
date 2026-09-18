@@ -13,7 +13,8 @@ export function useExplodeBehavior(
 ) {
   const isExploded = useProblemStore((s) => s.isExploded);
   const { invalidate } = useThree();
-  const currentFactor = useRef(1);
+  // 0 = assembled, 1 = fully exploded; eased toward the target each frame.
+  const progress = useRef(0);
   const [ox, oy, oz] = entity.transform.position;
 
   useEffect(() => {
@@ -23,16 +24,19 @@ export function useExplodeBehavior(
   useFrame(() => {
     if (!ref.current) return;
 
-    const target = useProblemStore.getState().isExploded ? behavior.target_factor : 1;
-    currentFactor.current += (target - currentFactor.current) * behavior.speed;
+    const target = useProblemStore.getState().isExploded ? 1 : 0;
+    progress.current += (target - progress.current) * behavior.speed;
+    const t = progress.current;
 
-    ref.current.position.set(
-      ox * currentFactor.current,
-      oy * currentFactor.current,
-      oz * currentFactor.current,
-    );
+    if (behavior.offset) {
+      const [dx, dy, dz] = behavior.offset;
+      ref.current.position.set(ox + dx * t, oy + dy * t, oz + dz * t);
+    } else {
+      const factor = 1 + (behavior.target_factor - 1) * t;
+      ref.current.position.set(ox * factor, oy * factor, oz * factor);
+    }
 
-    if (Math.abs(target - currentFactor.current) > SETTLE_EPSILON) {
+    if (Math.abs(target - t) > SETTLE_EPSILON) {
       invalidate();
     }
   });

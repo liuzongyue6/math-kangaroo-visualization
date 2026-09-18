@@ -1,8 +1,8 @@
 {
   "meta": {
-    "id": "MK_G5_6_2020_Cube3x3x3",
-    "title": "3x3x3 Cube Structure Explorer",
-    "description": "A 3x3x3 cube built from 27 unit cubes. Drag to orbit, and use Explode / Assemble to pull the cubes apart and inspect the hidden interior blocks.",
+    "id": "MK_G1_2_2025_2Blocks",
+    "title": "Which object cannot be built with Mike's 2 blocks?",
+    "description": "Top: Mike's blocks, a 3-cube L (blue) and a 2-cube bar (orange). A-D are colored to show how the two blocks fit together; press Explode to pull them apart. E can't be split: its red center cube touches 4 cubes that touch nothing else, so all 5 cubes would have to be one block. Drag to tilt the view and find the hidden cubes.",
     "stats_type": "none",
     "on_white_collect_message": null,
     "controls": [
@@ -11,43 +11,43 @@
     "params": []
   },
   "camera": {
-    "mode": "perspective",
+    "mode": "orthographic",
     "position": [
-      240.0,
-      240.0,
-      360.0
+      238.29733116840023,
+      231.6562718357421,
+      493.3129742966966
     ],
     "look_at": [
       0.0,
-      0.0,
+      -13.0,
       0.0
     ],
-    "zoom": null,
-    "fov": 45.0,
+    "zoom": 0.85,
+    "fov": null,
     "viewport_width": 600.0,
     "viewport_height": 460.0,
-    "controls": "orbit",
-    "min_polar_angle": null,
-    "max_polar_angle": null,
-    "min_azimuth_angle": null,
-    "max_azimuth_angle": null,
+    "controls": "limited",
+    "min_polar_angle": 0.75,
+    "max_polar_angle": 1.45,
+    "min_azimuth_angle": -0.4,
+    "max_azimuth_angle": 0.95,
     "fold_center_shift": null
   },
   "scene": {
     "entities": [
       {
-        "id": "cube-0-0-0",
+        "id": "mike-l-000",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#555555",
+          "color": "#4a90e2",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -56,9 +56,9 @@
         },
         "transform": {
           "position": [
-            -90.0,
-            -90.0,
-            -90.0
+            -96.0,
+            76.0,
+            -0.0
           ],
           "rotation": [
             0,
@@ -71,81 +71,34 @@
             1
           ]
         },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
+        "behaviors": [],
         "interactive": false,
         "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-0-0-1",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#555555",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            -90.0,
-            -90.0,
+        "label": {
+          "text": "Mike's L (3 cubes)",
+          "offset": [
+            16.0,
+            -40.74516074055352,
             0.0
           ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
+          "variant": "body",
+          "follow_rotation": false
         },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
         "pattern": null
       },
       {
-        "id": "cube-0-0-2",
+        "id": "mike-l-010",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#aaaaaa",
+          "color": "#4a90e2",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -154,9 +107,9 @@
         },
         "transform": {
           "position": [
-            -90.0,
-            -90.0,
-            90.0
+            -96.0,
+            108.0,
+            -0.0
           ],
           "rotation": [
             0,
@@ -169,32 +122,25 @@
             1
           ]
         },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
+        "behaviors": [],
         "interactive": false,
         "group_id": null,
         "label": null,
         "pattern": null
       },
       {
-        "id": "cube-0-1-0",
+        "id": "mike-l-100",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#555555",
+          "color": "#4a90e2",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -203,9 +149,9 @@
         },
         "transform": {
           "position": [
-            -90.0,
-            0.0,
-            -90.0
+            -64.0,
+            76.0,
+            -0.0
           ],
           "rotation": [
             0,
@@ -218,32 +164,25 @@
             1
           ]
         },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
+        "behaviors": [],
         "interactive": false,
         "group_id": null,
         "label": null,
         "pattern": null
       },
       {
-        "id": "cube-0-1-1",
+        "id": "mike-bar-000",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#555555",
+          "color": "#f5a623",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -252,10 +191,238 @@
         },
         "transform": {
           "position": [
-            -90.0,
-            0.0,
+            64.0,
+            76.0,
+            -0.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": {
+          "text": "Mike's bar (2 cubes)",
+          "offset": [
+            16.0,
+            -40.74516074055352,
             0.0
           ],
+          "variant": "body",
+          "follow_rotation": false
+        },
+        "pattern": null
+      },
+      {
+        "id": "mike-bar-100",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#f5a623",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            96.0,
+            76.0,
+            -0.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-a-l-000",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            -302.0,
+            -134.0,
+            16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": {
+          "text": "(A) ✓",
+          "offset": [
+            32.0,
+            -47.89032148110704,
+            -16.0
+          ],
+          "variant": "body",
+          "follow_rotation": false
+        },
+        "pattern": null
+      },
+      {
+        "id": "option-a-l-001",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            -302.0,
+            -134.0,
+            -16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-a-l-011",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            -302.0,
+            -102.0,
+            -16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-a-bar-101",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#f5a623",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            -270.0,
+            -134.0,
+            -16.0
+          ],
           "rotation": [
             0,
             0,
@@ -271,8 +438,12 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
+            "speed": 0.08,
+            "offset": [
+              28.8,
+              0.0,
+              -0.0
+            ]
           }
         ],
         "interactive": false,
@@ -281,18 +452,18 @@
         "pattern": null
       },
       {
-        "id": "cube-0-1-2",
+        "id": "option-a-bar-201",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#aaaaaa",
+          "color": "#f5a623",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -301,9 +472,197 @@
         },
         "transform": {
           "position": [
-            -90.0,
+            -238.0,
+            -134.0,
+            -16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "explode",
+            "target_factor": 2.2,
+            "speed": 0.08,
+            "offset": [
+              28.8,
+              0.0,
+              -0.0
+            ]
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-b-l-000",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            -135.0,
+            -134.0,
+            32.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": {
+          "text": "(B) ✓",
+          "offset": [
             0.0,
-            90.0
+            -55.03548222166057,
+            -32.0
+          ],
+          "variant": "body",
+          "follow_rotation": false
+        },
+        "pattern": null
+      },
+      {
+        "id": "option-b-l-001",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            -135.0,
+            -134.0,
+            -0.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-b-l-010",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            -135.0,
+            -102.0,
+            32.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-b-bar-002",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#f5a623",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            -135.0,
+            -134.0,
+            -32.0
           ],
           "rotation": [
             0,
@@ -320,8 +679,12 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
+            "speed": 0.08,
+            "offset": [
+              0.0,
+              0.0,
+              -28.8
+            ]
           }
         ],
         "interactive": false,
@@ -330,18 +693,18 @@
         "pattern": null
       },
       {
-        "id": "cube-0-2-0",
+        "id": "option-b-bar-012",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#ffffff",
+          "color": "#f5a623",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -350,9 +713,9 @@
         },
         "transform": {
           "position": [
-            -90.0,
-            90.0,
-            -90.0
+            -135.0,
+            -102.0,
+            -32.0
           ],
           "rotation": [
             0,
@@ -369,8 +732,12 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
+            "speed": 0.08,
+            "offset": [
+              0.0,
+              0.0,
+              -28.8
+            ]
           }
         ],
         "interactive": false,
@@ -379,18 +746,18 @@
         "pattern": null
       },
       {
-        "id": "cube-0-2-1",
+        "id": "option-c-l-000",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#ffffff",
+          "color": "#4a90e2",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -399,47 +766,531 @@
         },
         "transform": {
           "position": [
-            -90.0,
-            90.0,
+            -16.0,
+            -134.0,
+            16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": {
+          "text": "(C) ✓",
+          "offset": [
+            16.0,
+            -47.89032148110704,
+            -16.0
+          ],
+          "variant": "body",
+          "follow_rotation": false
+        },
+        "pattern": null
+      },
+      {
+        "id": "option-c-l-001",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            -16.0,
+            -134.0,
+            -16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-c-l-101",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            16.0,
+            -134.0,
+            -16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-c-bar-011",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#f5a623",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            -16.0,
+            -102.0,
+            -16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "explode",
+            "target_factor": 2.2,
+            "speed": 0.08,
+            "offset": [
+              0.0,
+              28.8,
+              -0.0
+            ]
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-c-bar-111",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#f5a623",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            16.0,
+            -102.0,
+            -16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "explode",
+            "target_factor": 2.2,
+            "speed": 0.08,
+            "offset": [
+              0.0,
+              28.8,
+              -0.0
+            ]
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-d-l-000",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            119.0,
+            -134.0,
+            16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": {
+          "text": "(D) ✓",
+          "offset": [
+            16.0,
+            -47.89032148110704,
+            -16.0
+          ],
+          "variant": "body",
+          "follow_rotation": false
+        },
+        "pattern": null
+      },
+      {
+        "id": "option-d-l-001",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            119.0,
+            -134.0,
+            -16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-d-l-101",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#4a90e2",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            151.0,
+            -134.0,
+            -16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-d-bar-010",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#f5a623",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            119.0,
+            -102.0,
+            16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "explode",
+            "target_factor": 2.2,
+            "speed": 0.08,
+            "offset": [
+              0.0,
+              28.8,
+              -0.0
+            ]
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-d-bar-020",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#f5a623",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            119.0,
+            -70.0,
+            16.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [
+          {
+            "kind": "explode",
+            "target_factor": 2.2,
+            "speed": 0.08,
+            "offset": [
+              0.0,
+              28.8,
+              -0.0
+            ]
+          }
+        ],
+        "interactive": false,
+        "group_id": null,
+        "label": null,
+        "pattern": null
+      },
+      {
+        "id": "option-e-center-001",
+        "geometry": {
+          "kind": "box",
+          "size": [
+            32.0,
+            32.0,
+            32.0
+          ],
+          "corner_radius": 0.0
+        },
+        "material": {
+          "color": "#e53935",
+          "opacity": 1.0,
+          "metalness": 0.0,
+          "roughness": 0.5,
+          "wireframe": false,
+          "unlit": false
+        },
+        "transform": {
+          "position": [
+            254.0,
+            -134.0,
+            -0.0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "behaviors": [],
+        "interactive": false,
+        "group_id": null,
+        "label": {
+          "text": "(E) ✗",
+          "offset": [
+            16.0,
+            -55.03548222166057,
             0.0
           ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
+          "variant": "body",
+          "follow_rotation": false
         },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
         "pattern": null
       },
       {
-        "id": "cube-0-2-2",
+        "id": "option-e-arm-000",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#aaaaaa",
+          "color": "#4caf50",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -448,9 +1299,9 @@
         },
         "transform": {
           "position": [
-            -90.0,
-            90.0,
-            90.0
+            254.0,
+            -134.0,
+            32.0
           ],
           "rotation": [
             0,
@@ -467,8 +1318,12 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
+            "speed": 0.08,
+            "offset": [
+              0.0,
+              0.0,
+              19.2
+            ]
           }
         ],
         "interactive": false,
@@ -477,18 +1332,18 @@
         "pattern": null
       },
       {
-        "id": "cube-1-0-0",
+        "id": "option-e-arm-002",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#555555",
+          "color": "#4caf50",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -497,9 +1352,9 @@
         },
         "transform": {
           "position": [
-            0.0,
-            -90.0,
-            -90.0
+            254.0,
+            -134.0,
+            -32.0
           ],
           "rotation": [
             0,
@@ -516,8 +1371,12 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
+            "speed": 0.08,
+            "offset": [
+              0.0,
+              0.0,
+              -19.2
+            ]
           }
         ],
         "interactive": false,
@@ -526,18 +1385,18 @@
         "pattern": null
       },
       {
-        "id": "cube-1-0-1",
+        "id": "option-e-arm-011",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#555555",
+          "color": "#4caf50",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -546,9 +1405,9 @@
         },
         "transform": {
           "position": [
-            0.0,
-            -90.0,
-            0.0
+            254.0,
+            -102.0,
+            -0.0
           ],
           "rotation": [
             0,
@@ -565,8 +1424,12 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
+            "speed": 0.08,
+            "offset": [
+              0.0,
+              19.2,
+              0.0
+            ]
           }
         ],
         "interactive": false,
@@ -575,18 +1438,18 @@
         "pattern": null
       },
       {
-        "id": "cube-1-0-2",
+        "id": "option-e-arm-101",
         "geometry": {
           "kind": "box",
           "size": [
-            90.0,
-            90.0,
-            90.0
+            32.0,
+            32.0,
+            32.0
           ],
           "corner_radius": 0.0
         },
         "material": {
-          "color": "#aaaaaa",
+          "color": "#4caf50",
           "opacity": 1.0,
           "metalness": 0.0,
           "roughness": 0.5,
@@ -595,9 +1458,9 @@
         },
         "transform": {
           "position": [
-            0.0,
-            -90.0,
-            90.0
+            286.0,
+            -134.0,
+            -0.0
           ],
           "rotation": [
             0,
@@ -614,743 +1477,12 @@
           {
             "kind": "explode",
             "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-1-1-0",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#555555",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            0.0,
-            0.0,
-            -90.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-1-1-1",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#555555",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-1-1-2",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#aaaaaa",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-1-2-0",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#ffffff",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            0.0,
-            90.0,
-            -90.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-1-2-1",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#ffffff",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            0.0,
-            90.0,
-            0.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-1-2-2",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#aaaaaa",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            0.0,
-            90.0,
-            90.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-2-0-0",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#ffffff",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            90.0,
-            -90.0,
-            -90.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-2-0-1",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#ffffff",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            90.0,
-            -90.0,
-            0.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-2-0-2",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#aaaaaa",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            90.0,
-            -90.0,
-            90.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-2-1-0",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#ffffff",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            90.0,
-            0.0,
-            -90.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-2-1-1",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#ffffff",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            90.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-2-1-2",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#aaaaaa",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            90.0,
-            0.0,
-            90.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-2-2-0",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#ffffff",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            90.0,
-            90.0,
-            -90.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-2-2-1",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#ffffff",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            90.0,
-            90.0,
-            0.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
-          }
-        ],
-        "interactive": false,
-        "group_id": null,
-        "label": null,
-        "pattern": null
-      },
-      {
-        "id": "cube-2-2-2",
-        "geometry": {
-          "kind": "box",
-          "size": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "corner_radius": 0.0
-        },
-        "material": {
-          "color": "#aaaaaa",
-          "opacity": 1.0,
-          "metalness": 0.0,
-          "roughness": 0.5,
-          "wireframe": false,
-          "unlit": false
-        },
-        "transform": {
-          "position": [
-            90.0,
-            90.0,
-            90.0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "scale": [
-            1,
-            1,
-            1
-          ]
-        },
-        "behaviors": [
-          {
-            "kind": "explode",
-            "target_factor": 2.2,
-            "speed": 0.06,
-            "offset": null
+            "speed": 0.08,
+            "offset": [
+              19.2,
+              0.0,
+              0.0
+            ]
           }
         ],
         "interactive": false,

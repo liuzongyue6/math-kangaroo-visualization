@@ -130,6 +130,12 @@ export function SceneInterpreter({ config, camera, meta }: SceneInterpreterProps
           maxPolarAngle={
             controlsMode === 'limited' ? camera.max_polar_angle ?? Math.PI : Math.PI
           }
+          minAzimuthAngle={
+            controlsMode === 'limited' ? camera.min_azimuth_angle ?? -Infinity : -Infinity
+          }
+          maxAzimuthAngle={
+            controlsMode === 'limited' ? camera.max_azimuth_angle ?? Infinity : Infinity
+          }
           minDistance={200}
           maxDistance={900}
           target={camera.look_at}

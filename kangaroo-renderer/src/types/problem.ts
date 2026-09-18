@@ -126,6 +126,9 @@ export type ExplodeBehavior = {
   kind: 'explode';
   target_factor: number;
   speed: number;
+  /** Fixed world-space translation when exploded (overrides the radial
+   * `target_factor` scaling). Older problem JSONs omit this field. */
+  offset?: [number, number, number] | null;
 };
 
 export type HingeJoint = {
@@ -223,6 +226,10 @@ export type CameraConfig = {
   controls: 'locked' | 'orbit' | 'limited';
   min_polar_angle: number | null;
   max_polar_angle: number | null;
+  /** Horizontal orbit range for `limited` controls (radians, 0 = camera on
+   * +z). Older problem JSONs omit these fields. */
+  min_azimuth_angle?: number | null;
+  max_azimuth_angle?: number | null;
   /** World-space offset of the folded solid's center at foldAngle = +90deg;
    * the renderer counter-shifts the scene linearly with the fold angle
    * (group position = -(foldAngle/90) * shift) so the model stays centered
